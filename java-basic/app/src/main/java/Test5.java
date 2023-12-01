@@ -1,0 +1,10 @@
+public class Test5{
+
+  public static void main(String[] args) throws Exception {
+    java.io.InputStream in = System.in;
+    java.util.Scanner keyIn = new java.util.Scanner(in);
+    String str = keyIn.nextLine();
+    System.out.println("===>" + str);
+    keyIn
+  }
+}
