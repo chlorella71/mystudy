@@ -1,5 +1,7 @@
 package bitcamp.myapp;
 
+import bitcamp.myapp.BoardMenuData.Data;
+
 public class BoardMenu {
 
   static void printMenu() {
@@ -13,21 +15,24 @@ public class BoardMenu {
 
   static void execute() {
     printMenu();
+
+    Data d = new Data();
+
     while (true) {
-      String input = Prompt.input("메인/게시글");
+      String input = Prompt.input("메인/게시글> ");
 
       switch (input) {
         case "1":
-          System.out.println("등록입니다.");
+          d.add();
           break;
         case "2":
-          System.out.println("조회입니다.");
+          d.view();
           break;
         case "3":
-          System.out.println("변경입니다.");
+          d.modify();
           break;
         case "4":
-          System.out.println("삭제입니다.");
+          d.delete();
           break;
         case "0":
           return;
@@ -39,5 +44,7 @@ public class BoardMenu {
       }
     }
   }
+
+
 }
 
