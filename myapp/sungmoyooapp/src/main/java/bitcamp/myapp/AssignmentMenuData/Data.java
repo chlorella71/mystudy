@@ -1,19 +1,18 @@
-package bitcamp.myapp.AssignmentMenuData;
+package bitcamp.myapp.vo;
 
 import bitcamp.myapp.Prompt;
 
 public class Data {
 
-  public String title;
-  public String content;
-  public String deadline;
+  public Object title;
+  public Object content;
+  public Object deadline;
 
+  public Data(Object title, Object content, Object deadline) {
+    this.title = title;
+    this.content = content;
+    this.deadline = deadline;
 
-  public void view() {
-    System.out.println("과제 조회:");
-    System.out.printf("과제명: %s\n", title);
-    System.out.printf("내용: %s\n", content);
-    System.out.printf("제출 마감일: %s\n", deadline);
   }
 
   public void add() {
@@ -22,6 +21,13 @@ public class Data {
     content = Prompt.input("내용? ");
     deadline = Prompt.input("제출 마감일? ");
 
+  }
+
+  public void view() {
+    System.out.println("과제 조회:");
+    System.out.printf("과제명: %s\n", title);
+    System.out.printf("내용: %s\n", content);
+    System.out.printf("제출 마감일: %s\n", deadline);
   }
 
   public void modify() {

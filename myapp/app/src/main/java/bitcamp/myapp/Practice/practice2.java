@@ -1,4 +1,4 @@
-package bitcamp.myapp;
+package bitcamp.myapp.Practice;
 
 public class practice2 {
 
