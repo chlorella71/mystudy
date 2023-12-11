@@ -1,21 +1,25 @@
 package bitcamp.myapp.menu;
 
+import bitcamp.menu.Menu;
 import bitcamp.util.AnsiEscape;
 import bitcamp.util.Prompt;
 
-public class MainMenu {
+public class MainMenu implements Menu {
 
-  static final String APP_TITLE = AnsiEscape.ANSI_BOLD_RED + "[과제관리 시스템]" + AnsiEscape.ANSI_CLEAR;
+  static final String APP_TITLE =
+    AnsiEscape.ANSI_BOLD_RED
+      + "[과제관리 시스템]"
+      + AnsiEscape.ANSI_CLEAR;
   static final String[] MENUS = {
-      "1. 과제",
-      "2. 게시글",
-      "3. 회원",
-      "4. 가입인사",
-      "5. 도움말",
-      AnsiEscape.ANSI_RED + "0. 종료" + AnsiEscape.ANSI_CLEAR
+    "1. 과제",
+    "2. 게시글",
+    "3. 회원",
+    "4. 가입인사",
+    "5. 도움말",
+    AnsiEscape.ANSI_RED + "0. 종료" + AnsiEscape.ANSI_CLEAR
   };
 
-  //의존 객체(Dependency Object ==> dependency);
+  // 의존 객체(Dependency Object ==> dependency);
   // - 클래스가 작업을 수행할 때 사용하는 객체
   Prompt prompt;
 
@@ -31,40 +35,44 @@ public class MainMenu {
     }
   }
 
-  public void execute() {
+  @Override
+  public String getTitle() {
+    return null;
+  }
 
-    BoardMenu boardMenu = new BoardMenu("게시판", this.prompt); // non static 변수를 heap이라는 메모리에 만든다.
-    //boardMenu.title = "게시판"; => 생성자 사용
-    BoardMenu greetingMenu = new BoardMenu("가입인사", this.prompt); //따로 선언하였기 떄문에 위의 배열과 다른 것임.
-    AssignmentMenu assignmentMenu = new AssignmentMenu("과제", this.prompt);
-    MemberMenu memberMenu = new MemberMenu("회원", this.prompt);
+  public void execute(Prompt prompt) {
+
+    Menu boardMenu = new BoardMenu("게시판", this.prompt);
+    Menu greetingMenu = new BoardMenu("가입인사", this.prompt);
+    Menu assignmentMenu = new AssignmentMenu("과제", this.prompt);
+    Menu memberMenu = new MemberMenu("회원", this.prompt);
+    Menu helpMenu = new HelpMenu("도움말", this.prompt);
+
     printMenu();
 
     while (true) {
-      String input = prompt.input("메인> ");
+      String input = this.prompt.input("메인> ");
 
       switch (input) {
         case "1":
-          assignmentMenu.execute();
+          assignmentMenu.execute(prompt);
           break;
         case "2":
-          boardMenu.execute();
+          boardMenu.execute(prompt);
           break;
         case "3":
-          memberMenu.execute();
+          memberMenu.execute(prompt);
           break;
         case "4":
-          greetingMenu.execute();
+          greetingMenu.execute(prompt);
           break;
         case "5":
-          System.out.println("도움말입니다.");
+          helpMenu.execute(prompt);
           break;
         case "0":
           System.out.println("종료합니다.");
           return;
         case "menu":
-          // 코드를 기능 단위로 묶어 메서드로 정의하면
-          // 메서드의 이름을 통해 해당 기능을 쉽게 유추할 수 있어 유지보수에 좋다.
           printMenu();
           break;
         default:

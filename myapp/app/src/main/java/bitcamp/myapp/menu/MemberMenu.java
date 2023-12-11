@@ -1,14 +1,18 @@
 package bitcamp.myapp.menu;
 
+import bitcamp.menu.Menu;
 import bitcamp.myapp.vo.Member;
 import bitcamp.util.Prompt;
 
-public class MemberMenu {
+public class MemberMenu implements Menu {
 
+  // 의존 객체(Dependency Object ==> dependency);
+  // - 클래스가 작업을 수행할 때 사용하는 객체
   Prompt prompt;
+
+  String title;
   Member[] members = new Member[3];
   int length = 0;
-  String title;
 
   public MemberMenu(String title, Prompt prompt) {
     this.title = title;
@@ -25,11 +29,15 @@ public class MemberMenu {
     System.out.println("0. 이전");
   }
 
-  void execute() {
-    this.printMenu();
+  @Override
+  public String getTitle() {
+    return null;
+  }
 
+  public void execute(Prompt prompt) {
+    this.printMenu();
     while (true) {
-      String input = this.prompt.input("메인/회원> ");
+      String input = this.prompt.input("메인/%s> ", this.title);
 
       switch (input) {
         case "1":
@@ -62,10 +70,8 @@ public class MemberMenu {
     System.out.println("회원 등록:");
 
     if (this.length == this.members.length) {
-      //System.out.println("게시글을 더이상 등록할 수 없습니다.");
       int oldSize = this.members.length;
-      //int newSize = oldSize + (oldSize / 2);
-      int newSize = oldSize + (oldSize >> 1);//'>>1'비트이동연산자, '/2'를 의미한다.
+      int newSize = oldSize + (oldSize >> 1);
 
       Member[] arr = new Member[newSize];
       for (int i = 0; i < oldSize; i++) {
@@ -76,60 +82,12 @@ public class MemberMenu {
     }
 
     Member member = new Member();
-    member.name = this.prompt.input("이름? ");
     member.email = this.prompt.input("이메일? ");
-    member.password = this.prompt.input("비밀번호? ");
-    member.createdData = this.prompt.input("가입일? ");
+    member.name = this.prompt.input("이름? ");
+    member.password = this.prompt.input("암호? ");
+    member.createdDate = this.prompt.input("가입일? ");
 
-    this.members[length] = member;
-    this.length++;
-  }
-
-  void view() {
-    System.out.println("회원 조회:");
-
-    int index = Integer.parseInt(this.prompt.input("번호? "));
-    if (index < 0 || index >= this.length) {
-      System.out.println("회원 번호가 유효하지 않습니다.");
-      return;
-    }
-
-    Member member = this.members[index];
-    System.out.printf("이름: %s\n", member.name);
-    System.out.printf("이메일: %s\n", member.email);
-    System.out.printf("가입일: %s\n", member.createdData);
-  }
-
-  void modify() {
-    System.out.println("회원 변경:");
-
-    int index = Integer.parseInt(this.prompt.input("번호? "));
-    if (index < 0 || index >= this.length) {
-      System.out.println("회원 번호가 유효하지 않습니다");
-      return;
-    }
-
-    Member member = this.members[index];
-    member.name = this.prompt.input("이름(%s)? ", member.name);
-    member.email = this.prompt.input("이메일(%s)? ", member.email);
-    member.password = this.prompt.input("새 비밀번호(%s)? ");
-    member.createdData = this.prompt.input("가입일(%s)? ", member.createdData);
-  }
-
-  void delete() {
-    System.out.println("회원 삭제:");
-
-    int index = Integer.parseInt(this.prompt.input("번호? "));
-    if (index < 0 || index >= this.length) {
-      System.out.println("회원 번호가 유효하지 않습니다.");
-      return;
-    }
-
-    for (int i = index; i < (this.length - 1); i++) {
-      this.members[i] = this.members[i + 1];
-    }
-    this.length--;
-    this.members[length] = null;
+    this.members[this.length++] = member;
   }
 
   void list() {
@@ -138,7 +96,53 @@ public class MemberMenu {
 
     for (int i = 0; i < this.length; i++) {
       Member member = this.members[i];
-      System.out.printf("%-10s\t%30s\t%s\n", member.name, member.email, member.createdData);
+      System.out.printf("%-10s\t%30s\t%s\n", member.name, member.email, member.createdDate);
     }
+  }
+
+  void view() {
+    System.out.println("회원 조회:");
+
+    int index = this.prompt.inputInt("번호? ");
+    if (index < 0 || index >= this.length) {
+      System.out.println("회원 번호가 유효하지 않습니다.");
+      return;
+    }
+
+    Member member = this.members[index];
+    System.out.printf("이메일: %s\n", member.email);
+    System.out.printf("이름: %s\n", member.name);
+    System.out.printf("가입일: %s\n", member.createdDate);
+  }
+
+  void modify() {
+    System.out.println("회원 변경:");
+
+    int index = this.prompt.inputInt("번호? ");
+    if (index < 0 || index >= this.length) {
+      System.out.println("회원 번호가 유효하지 않습니다.");
+      return;
+    }
+
+    Member member = this.members[index];
+    member.email = this.prompt.input("이메일(%s)? ", member.email);
+    member.name = this.prompt.input("이름(%s)? ", member.name);
+    member.password = this.prompt.input("새 암호? ");
+    member.createdDate = this.prompt.input("가입일(%s)? ", member.createdDate);
+  }
+
+  void delete() {
+    System.out.println("회원 삭제:");
+
+    int index = this.prompt.inputInt("번호? ");
+    if (index < 0 || index >= this.length) {
+      System.out.println("회원 번호가 유효하지 않습니다.");
+      return;
+    }
+
+    for (int i = index; i < (this.length - 1); i++) {
+      this.members[i] = this.members[i + 1];
+    }
+    this.members[--this.length] = null;
   }
 }

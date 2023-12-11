@@ -1,18 +1,22 @@
 package bitcamp.myapp.menu;
 
+import bitcamp.menu.Menu;
 import bitcamp.myapp.vo.Board;
 import bitcamp.util.Prompt;
 
-public class BoardMenu {
+public class BoardMenu implements Menu {
 
+  // 의존 객체(Dependency Object ==> dependency);
+  // - 클래스가 작업을 수행할 때 사용하는 객체
   Prompt prompt;
+
   String title;
   Board[] boards = new Board[3];
   int length = 0;
 
-  //BoardMenu 인스턴스를 생성할 때 반드시 게시판 제목을 설정하도록 강요한다.
-  //생성자란(constructor)?
-  //=> 인스턴스를 사용하기 전에 유효한 상태로 설정하는 작업을 수행하는 메소드
+  // BoardMenu 인스턴스를 생성할 때 반드시 게시판 제목을 설정하도록 강요한다.
+  // 생성자란(constructor)?
+  // => 인스턴스를 사용하기 전에 유효한 상태로 설정하는 작업을 수행하는 메서드
   public BoardMenu(String title, Prompt prompt) {
     this.title = title;
     this.prompt = prompt;
@@ -28,8 +32,13 @@ public class BoardMenu {
     System.out.println("0. 이전");
   }
 
-  void execute() { //excute가 받는 인스턴스를 그대로 넘겨준다?
-    this.printMenu(); //this를 생략할 수 있다?
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
+  public void execute(Prompt prompt) {
+    this.printMenu();
     while (true) {
       String input = this.prompt.input("메인/%s> ", this.title);
 
@@ -52,7 +61,7 @@ public class BoardMenu {
         case "0":
           return;
         case "menu":
-          printMenu(); //같은 클래스 안에 있으므로 BoardMenu.printMenu();로 할 필요 없다.
+          this.printMenu();
           break;
         default:
           System.out.println("메뉴 번호가 옳지 않습니다!");
@@ -64,10 +73,8 @@ public class BoardMenu {
     System.out.println("게시글 등록:");
 
     if (this.length == this.boards.length) {
-      //System.out.println("게시글을 더이상 등록할 수 없습니다.");
-      int oldSize = boards.length;
-      //int newSize = oldSize + (oldSize / 2);
-      int newSize = oldSize + (oldSize >> 1);//'>>1'비트이동연산자, '/2'를 의미한다.
+      int oldSize = this.boards.length;
+      int newSize = oldSize + (oldSize >> 1);
 
       Board[] arr = new Board[newSize];
       for (int i = 0; i < oldSize; i++) {
@@ -83,15 +90,23 @@ public class BoardMenu {
     board.writer = this.prompt.input("작성자? ");
     board.createdDate = this.prompt.input("작성일? ");
 
-    //boards[length] = board;
-    //length++;
     this.boards[this.length++] = board;
+  }
+
+  void list() { // 논스태틱 메서드 == 인스턴스 메서드
+    System.out.println("게시글 목록:");
+    System.out.printf("%-20s\t%10s\t%s\n", "Title", "Writer", "Date");
+
+    for (int i = 0; i < this.length; i++) {
+      Board board = this.boards[i];
+      System.out.printf("%-20s\t%10s\t%s\n", board.title, board.writer, board.createdDate);
+    }
   }
 
   void view() {
     System.out.println("게시글 조회:");
 
-    int index = Integer.parseInt(this.prompt.input("번호? "));
+    int index = this.prompt.inputInt("번호? ");
     if (index < 0 || index >= this.length) {
       System.out.println("게시글 번호가 유효하지 않습니다.");
       return;
@@ -107,9 +122,9 @@ public class BoardMenu {
   void modify() {
     System.out.println("게시글 변경:");
 
-    int index = Integer.parseInt(this.prompt.input("번호? "));
+    int index = this.prompt.inputInt("번호? ");
     if (index < 0 || index >= this.length) {
-      System.out.println("과제 번호가 유효하지 않습니다.");
+      System.out.println("게시글 번호가 유효하지 않습니다.");
       return;
     }
 
@@ -123,7 +138,7 @@ public class BoardMenu {
   void delete() {
     System.out.println("게시글 삭제:");
 
-    int index = Integer.parseInt(this.prompt.input("번호? "));
+    int index = this.prompt.inputInt("번호? ");
     if (index < 0 || index >= this.length) {
       System.out.println("게시글 번호가 유효하지 않습니다.");
       return;
@@ -132,21 +147,6 @@ public class BoardMenu {
     for (int i = index; i < (this.length - 1); i++) {
       this.boards[i] = this.boards[i + 1];
     }
-    // length--;
-    //boards[length] = null;
-    this.boards[--this.length] = null; //전위감소연산자를 이용하여 합침?
-  }
-
-  void list() { // non-static method == instance method (논 스태틱 메서드 == 인스턴스 메서드)
-    System.out.println("게시글 목록:");
-    System.out.printf("%-20s\t%10s\t%s\n", "제목", "작성자", "게시일");
-
-    for (int i = 0; i < this.length; i++) {
-      Board board = this.boards[i];
-      System.out.printf("%-20s\t%10s\t%s\n", board.title, board.writer, board.createdDate);
-    }
-
+    this.boards[--this.length] = null;
   }
 }
-
-

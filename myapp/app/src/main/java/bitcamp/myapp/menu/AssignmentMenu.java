@@ -1,13 +1,15 @@
 package bitcamp.myapp.menu;
 
+import bitcamp.menu.Menu;
 import bitcamp.myapp.vo.Assignment;
 import bitcamp.util.Prompt;
 
-public class AssignmentMenu {
+public class AssignmentMenu implements Menu {
 
-  //의존 객체(Dependency Object ==> dependency);
-  //- 클래스가 작업을 수행할 때 사용하는 객체
+  // 의존 객체(Dependency Object ==> dependency);
+  // - 클래스가 작업을 수행할 때 사용하는 객체
   Prompt prompt;
+
   String title;
   Assignment[] assignments = new Assignment[3];
   int length = 0;
@@ -17,7 +19,22 @@ public class AssignmentMenu {
     this.prompt = prompt;
   }
 
-  void execute() {
+  void printMenu() {
+    System.out.printf("[%s]\n", this.title);
+    System.out.println("1. 등록");
+    System.out.println("2. 조회");
+    System.out.println("3. 변경");
+    System.out.println("4. 삭제");
+    System.out.println("5. 목록");
+    System.out.println("0. 이전");
+  }
+
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
+  public void execute(Prompt prompt) {
     this.printMenu();
 
     while (true) {
@@ -51,7 +68,6 @@ public class AssignmentMenu {
   }
 
   void add() {
-
     System.out.println("과제 등록:");
 
     if (this.length == this.assignments.length) {
@@ -59,13 +75,13 @@ public class AssignmentMenu {
       int oldSize = this.assignments.length;
       int newSize = oldSize + (oldSize / 2);
 
-      //이전 배열에 들어있는 값을 새 배열에 복사
+      // 이전 배열에 들어 있는 값을 새 배열에 복사
       Assignment[] arr = new Assignment[newSize];
       for (int i = 0; i < oldSize; i++) {
         arr[i] = this.assignments[i];
       }
 
-      //새 배열을 가리키도록 배열 레퍼런스를 변경
+      // 새 배열을 가리키도록 배열 레퍼런스를 변경
       this.assignments = arr;
     }
 
@@ -74,7 +90,7 @@ public class AssignmentMenu {
     assignment.content = this.prompt.input("내용? ");
     assignment.deadline = this.prompt.input("제출 마감일? ");
 
-    this.assignments[length] = assignment;
+    this.assignments[this.length] = assignment;
     this.length++;
   }
 
@@ -86,36 +102,36 @@ public class AssignmentMenu {
       Assignment assignment = this.assignments[i];
       System.out.printf("%-20s\t%s\n", assignment.title, assignment.deadline);
     }
-
   }
 
   void view() {
     System.out.println("과제 조회:");
+
     int index = this.prompt.inputInt("번호? ");
     if (index < 0 || index >= this.length) {
       System.out.println("과제 번호가 유효하지 않습니다.");
       return;
     }
+
     Assignment assignment = this.assignments[index];
     System.out.printf("과제명: %s\n", assignment.title);
     System.out.printf("내용: %s\n", assignment.content);
     System.out.printf("제출 마감일: %s\n", assignment.deadline);
-
-
   }
 
   void modify() {
     System.out.println("과제 변경:");
+
     int index = this.prompt.inputInt("번호? ");
     if (index < 0 || index >= this.length) {
       System.out.println("과제 번호가 유효하지 않습니다.");
       return;
     }
+
     Assignment assignment = this.assignments[index];
     assignment.title = this.prompt.input("과제명(%s)? ", assignment.title);
     assignment.content = this.prompt.input("내용(%s)? ", assignment.content);
     assignment.deadline = this.prompt.input("제출 마감일(%s)? ", assignment.deadline);
-
   }
 
   void delete() {
@@ -128,22 +144,9 @@ public class AssignmentMenu {
     }
 
     for (int i = index; i < (this.length - 1); i++) {
-      this.assignments[i] = this.assignments[i + 1]; //다음 레퍼런스의 값을 삭제하려는 현재 레퍼런스로 이동
+      this.assignments[i] = this.assignments[i + 1]; // 다음 레퍼런스의 값을 삭제하려는 현재 레퍼런스로 이동
     }
     this.length--;
-    this.assignments[length] = null;
-    //  assignment.title = "";
-    //  assignment.content = "";
-    //  assignment.deadline = "";
-  }
-
-  void printMenu() {
-    System.out.printf("[%s]\n", this.title); //printf는 줄바꿈 코드를 자동으로 생성하지 않으므로 이스케이프 코드를 통해서 직접삽입
-    System.out.println("1. 등록");
-    System.out.println("2. 조회");
-    System.out.println("3. 변경");
-    System.out.println("4. 삭제");
-    System.out.println("5. 목록");
-    System.out.println("0. 이전");
+    this.assignments[this.length] = null;
   }
 }
