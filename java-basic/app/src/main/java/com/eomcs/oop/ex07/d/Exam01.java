@@ -9,7 +9,7 @@ public class Exam01 {
     // Sorter 클래스를 추상 클래스로 선언했기 때문에
     // 이제 Sorter의 인스턴스를 생성을 막을 수 있다.
     //
-    //    display(new Sorter(), values); // 컴파일 오류!
+    // display(new Sorter(), values); // 컴파일 오류!
 
     display(new BubbleSort(), values); // OK!
     display(new QuickSort(), values); // OK!
@@ -21,17 +21,14 @@ public class Exam01 {
 
   }
 
+
   static void display(Sorter sorter, int[] values) {
     sorter.sort(values);
-    for (int  value : values) {
+    for (int value : values) {
       System.out.print(value + ",");
     }
     System.out.println();
   }
 }
-
-
-
-
 
 

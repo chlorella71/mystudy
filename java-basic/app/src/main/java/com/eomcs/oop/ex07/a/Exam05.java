@@ -25,9 +25,12 @@ abstract class Letter {
   // 세부 사항에 대한 것은
   // 서브 클래스에게 구현을 맡긴다.
   public abstract void printHeader();
+
   public abstract void printFooter();
+
   public abstract String getSign();
 }
+
 
 // 상세한 기능에 대한 구현은 다음과 같이 서브 클래스에게 맡긴다.
 class LoveLetter extends Letter {
@@ -51,6 +54,7 @@ class LoveLetter extends Letter {
   public void x() {}
 }
 
+
 class ReportLetter extends Letter {
   @Override
   public void printHeader() {
@@ -69,12 +73,11 @@ class ReportLetter extends Letter {
   }
 }
 
+
 public class Exam05 {
   public static void main(String[] args) {
     Letter letter = new LoveLetter();
-    letter.setContent("눈이 녹으면 무엇이 될까요?\n"
-        + "봄이 온다 합니다.\n"
-        + "따뜻한 봄이 기다려지네요.");
+    letter.setContent("눈이 녹으면 무엇이 될까요?\n" + "봄이 온다 합니다.\n" + "따뜻한 봄이 기다려지네요.");
     letter.print();
 
     Letter letter2 = new ReportLetter();
