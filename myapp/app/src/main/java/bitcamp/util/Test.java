@@ -53,8 +53,8 @@ public class Test {
     node = node.next;
     System.out.println(node.value);*/
 
-    Object[] arr = list.toArray();
-    for (Object value : arr) {
+    String[] arr = list.toArray(new String[0]);
+    for (String value : arr) {
       System.out.printf("%s, ", value);
     }
     System.out.println();

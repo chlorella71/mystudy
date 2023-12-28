@@ -2,16 +2,16 @@ package bitcamp.myapp.handler.member;
 
 import bitcamp.menu.AbstractMenuHandler;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.List;
 import bitcamp.util.Prompt;
-import java.util.ArrayList;
 
 public class MemberDeleteHandler extends AbstractMenuHandler {
 
-  private ArrayList<Member> objectRepository;
+  private List<Member> objectRepository;
 
-  public MemberDeleteHandler(ArrayList<Member> arrayList, Prompt prompt) {
+  public MemberDeleteHandler(List<Member> List, Prompt prompt) {
     super(prompt);
-    this.objectRepository = arrayList;
+    this.objectRepository = List;
   }
 
   @Override
@@ -19,6 +19,6 @@ public class MemberDeleteHandler extends AbstractMenuHandler {
     int index = this.prompt.inputInt("번호? ");
     this.objectRepository.remove(index);
 
-    
+
   }
 }
