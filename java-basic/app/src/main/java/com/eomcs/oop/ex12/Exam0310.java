@@ -21,7 +21,15 @@ public class Exam0310 {
     }
 
     testPlayer(new MyPlayer());
-
+    // 1. 로컬클래스를 익명클래스만들기
+    // Player = new Player() {
+    // public void play() {
+    // System.out.println("실행!");
+    // }
+    // }
+    // 2. 람다문법
+    // 3. 합치기
+    // testPlayer(() -> System.out.println("실행!"));
   }
 }
 

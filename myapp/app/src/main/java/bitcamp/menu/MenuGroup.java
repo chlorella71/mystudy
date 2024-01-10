@@ -1,9 +1,11 @@
 package bitcamp.menu;
 
-import bitcamp.util.LinkedList;
-import bitcamp.util.List;
 import bitcamp.util.Prompt;
-import bitcamp.util.Stack;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+
 
 // Composite 패턴에서 '복합 객체(composite object)' 역할을 하는 클래스
 // - 다른 Menu 객체를 포함한다.
@@ -61,8 +63,12 @@ public class MenuGroup extends AbstractMenu {
   private void printMenu() {
     System.out.printf("[%s]\n", this.getTitle());
 
-    for (int i = 0; i < this.menus.size(); i++) {
-      System.out.printf("%d. %s\n", (i + 1), menus.get(i).getTitle());
+    Iterator<Menu> iterator = this.menus.iterator();
+    int i = 1;
+    while (iterator.hasNext()) {
+      Menu menu = iterator.next();
+      System.out.printf("%d. %s\n", i++, menu.getTitle());
+      //System.out.printf("%d. %s\n", i++, menus.get(i).getTitle());
     }
 
     System.out.printf("0. %s\n", "이전");

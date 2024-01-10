@@ -16,6 +16,7 @@ class MemberBox {
   }
 }
 
+
 class StringBox {
   String value;
 
@@ -27,6 +28,7 @@ class StringBox {
     return value;
   }
 }
+
 
 class IntegerBox {
   Integer value;
@@ -40,6 +42,7 @@ class IntegerBox {
   }
 }
 
+
 public class Exam0210 {
 
   public static void main(String[] args) {
@@ -47,7 +50,7 @@ public class Exam0210 {
     // Member 객체를 저장하려면 MemberBox를 사용해야 한다.
     MemberBox box1 = new MemberBox();
     box1.set(new Member("홍길동", 20)); // 값 저장
-    //    box1.set(new String("Hello")); // 컴파일 오류!
+    // box1.set(new String("Hello")); // 컴파일 오류!
     Member m = box1.get(); // 값 꺼내기
     System.out.println(m);
 
@@ -60,7 +63,7 @@ public class Exam0210 {
     // Integer 객체는 IntegerBox를 사용해서 저장한다.
     IntegerBox box3 = new IntegerBox();
     box3.set(100); // auto-boxing ==> box3.set(Integer.valueOf(100)) 문장으로 변경된다.
-    int i = box3.get(); // auto-unboxing ==> box3.get().intValue()
+    int i = box3.get(); // auto-unboxing ==> box3.get().intValue() 컴파일러가 자동으로 변환
     System.out.println(i);
 
     // 이렇게 객체를 저장하려면 각 객체의 타입 별로 Box 클래스를 생성해야 한다.
@@ -70,7 +73,7 @@ public class Exam0210 {
     // 여러 개의 유사 클래스를 반복적으로 정의해야 하는 문제가 발생한다.
     // 해결책?
     // => 다양한 타입의 객체를 저장할 수 있도록 다형성의 다형적 변수 특징을 이용하여
-    //    값을 저장하는 인스턴스 변수를 Object 타입으로 정의한다.
+    // 값을 저장하는 인스턴스 변수를 Object 타입으로 정의한다.
 
   }
 }

@@ -2,16 +2,16 @@ package bitcamp.myapp.handler.member;
 
 import bitcamp.menu.AbstractMenuHandler;
 import bitcamp.myapp.vo.Member;
-import bitcamp.util.List;
 import bitcamp.util.Prompt;
+import java.util.List;
 
 public class MemberDeleteHandler extends AbstractMenuHandler {
 
   private List<Member> objectRepository;
 
-  public MemberDeleteHandler(List<Member> List, Prompt prompt) {
+  public MemberDeleteHandler(List<Member> objectRepository, Prompt prompt) {
     super(prompt);
-    this.objectRepository = List;
+    this.objectRepository = objectRepository;
   }
 
   @Override

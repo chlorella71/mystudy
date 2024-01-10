@@ -4,17 +4,13 @@ package com.eomcs.annotation.ex5;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.RUNTIME) // 값만 있을 때는 value=가 생략된 것임
 public @interface MyAnnotation {
-    String v1() default "가나다";
-    int v2() default 100;
-    float v3() default 3.14f;
+  String v1() default "가나다";
+
+  int v2() default 100;
+
+  float v3() default 3.14f;
 }
-
-
-
-
-
-
 
 
