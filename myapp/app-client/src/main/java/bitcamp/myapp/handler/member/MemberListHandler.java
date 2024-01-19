@@ -23,10 +23,10 @@ public class MemberListHandler extends AbstractMenuHandler {
 
     for (Member member : list) {
       System.out.printf("%-4d\t%-10s\t%30s\t%4$tY-%4$tm-%4$td\n",
-          member.getNo(),
-          member.getName(),
-          member.getEmail(),
-          member.getCreatedDate());
+        member.getNo(),
+        member.getName(),
+        member.getEmail(),
+        member.getCreatedDate());
     }
   }
 }

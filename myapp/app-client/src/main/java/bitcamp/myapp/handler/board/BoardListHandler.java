@@ -23,10 +23,10 @@ public class BoardListHandler extends AbstractMenuHandler {
 
     for (Board board : list) {
       System.out.printf("%-4d\t%-20s\t%10s\t%4$tY-%4$tm-%4$td\n",
-          board.getNo(),
-          board.getTitle(),
-          board.getWriter(),
-          board.getCreatedDate());
+        board.getNo(),
+        board.getTitle(),
+        board.getWriter(),
+        board.getCreatedDate());
     }
   }
 }

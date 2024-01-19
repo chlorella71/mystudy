@@ -23,9 +23,9 @@ public class AssignmentListHandler extends AbstractMenuHandler {
 
     for (Assignment assignment : list) {
       System.out.printf("%-4d\t%-20s\t%s\n",
-          assignment.getNo(),
-          assignment.getTitle(),
-          assignment.getDeadline());
+        assignment.getNo(),
+        assignment.getTitle(),
+        assignment.getDeadline());
     }
   }
 }
