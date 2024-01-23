@@ -33,6 +33,7 @@ public class Server0110 {
     out.println(str);
     System.out.println("데이터 송신 완료!");
 
+
     in.close();
     out.close();
     socket.close();
