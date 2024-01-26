@@ -16,8 +16,8 @@ public class Exam0210 {
     @Override
     public void run() {
       try {
-        System.out.printf("[%s] - 스레드에서 작업 실행 중...\n",
-            Thread.currentThread().getName());
+        System.out.printf("[%s] - 스레드에서 작업 실행 중...(%d)\n",
+            Thread.currentThread().getName(), millisec);
 
         Thread.sleep(millisec);
 
@@ -29,7 +29,7 @@ public class Exam0210 {
     }
   }
   public static void main(String[] args) {
-    ExecutorService executorService = Executors.newFixedThreadPool(3);
+    ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     // 일단 스레드풀의 크기(3 개)만큼 작업 수행을 요청한다.
     // - 작업은 큐에 등록된 순서대로 보관된다.
@@ -46,6 +46,8 @@ public class Exam0210 {
     //
     executorService.execute(new MyRunnable(2000));
     executorService.execute(new MyRunnable(4000));
+
+    executorService.shutdown();
 
     System.out.println("main() 종료!");
   }
