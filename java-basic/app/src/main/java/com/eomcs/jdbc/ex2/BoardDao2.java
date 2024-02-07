@@ -1,4 +1,4 @@
-// 데이터를 처리하는 코드를 별도의 클래스로 캡슐화시킨다.
+// 데이터를 처리하는 코드를 별도의 클래스로 캡슐화시킨다. 
 // => data 영속성(지속성)을 관리하는 클래스를 DAO(Data Access Object)라 부른다.
 // => data 영속성(지속성)
 //    - 데이터를 저장하고 유지하는 것.
@@ -12,10 +12,24 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardDao {
+// 스태틱메소드르 만들지 않는 이유는 인스턴스 변수를 쓸일이 생길 수도 있기 때문이다.
+
+public class BoardDao2 {
+  //  String jdbcUrl;
+  //  String username;
+  //  String password;
+
+  Connection con;
+
+  public BoardDao2(String jdbcUrl, String username, String password) throws Exception {
+    //    this.jdbcUrl = jdbcUrl;
+    //    this.username;
+    con = DriverManager.getConnection(jdbcUrl, username, password);
+  }
+
   public int delete(int no) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");
+    try (/*Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");*/
         Statement stmt = con.createStatement()) {
 
       // 첨부파일 삭제
@@ -27,8 +41,8 @@ public class BoardDao {
   }
 
   public List<Board> findAll() throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");
+    try (/*Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");*/
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from x_board order by board_id desc")) {
 
@@ -47,8 +61,8 @@ public class BoardDao {
   }
 
   public int insert(Board board) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");
+    try (/*Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");*/
         Statement stmt = con.createStatement();) {
 
       String sql = String.format(
@@ -61,8 +75,8 @@ public class BoardDao {
   }
 
   public int update(Board board) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");
+    try (/*Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");*/
         Statement stmt = con.createStatement()) {
 
       String sql = String.format(
@@ -76,8 +90,8 @@ public class BoardDao {
   }
 
   public Board findBy(String no) throws Exception {
-    try (Connection con = DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");
+    try (/*Connection con = DriverManager.getConnection(
+        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");*/
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery("select * from x_board where board_id = " + no)) {
 

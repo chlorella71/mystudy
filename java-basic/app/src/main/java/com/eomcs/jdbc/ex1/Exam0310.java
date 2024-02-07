@@ -7,6 +7,7 @@ public class Exam0310 {
 
     try (java.sql.Connection con = java.sql.DriverManager.getConnection(
         "jdbc:mysql://localhost:3306/studydb?user=study&password=1111");
+        // 암호에 #이 들어가는 경우에는 붙여서 사용할 수 없다...
 
         // java.sql.Statement 구현 객체를 얻는다.
         // - SQL문을 DBMS의 형식에 따라 인코딩하여 서버에 전달하는 일을 하는 객체.

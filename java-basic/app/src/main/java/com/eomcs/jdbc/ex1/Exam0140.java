@@ -7,6 +7,8 @@ public class Exam0140 {
 
   public static void main(String[] args) {
 
+
+
     // JDBC 드라이버 등록 방법4: Driver 구현체 자동 로딩
     // => DriverManager를 사용할 때,
     //    DriverManager 는 다음 절차에 따라 Driver 구현체를 찾아서 자동으로 로딩한다.
@@ -23,12 +25,15 @@ public class Exam0140 {
     // => 시스템 프로퍼티 설정 방법
     // 예1) JVM을 실행할 때 JVM 옵션을 지정하는 방법
     // - java -Djdbc.drivers=클래스명:클래스명:클래스명 Exam0140
-    //
+    //ex) java -Djdbc.drivers=com.eomcs.jdbc.ex1.MyDrvier Exam0140
+
     // 예2) 프로그램 코드에서 설정하는 방법
     // - System.setProperty("jdbc.drivers", "com.eomcs.jdbc.ex1.MyDriver");
-    //
+    //ex)  System.setProperty("jdbc.drivers", "com.eomcs.jdbc.ex1.MyDriver");
+
     //    System.setProperty("jdbc.drivers", "com.eomcs.jdbc.ex1.MyDriver");
     //    System.out.printf("jdbc.drivers=%s\n", System.getProperty("jdbc.drivers"));
+    // 코드 안에 바꾸는 방법은 다시 작성해야하는 경우가 생기므로 비추천
 
     try {
       // Driver 구현체를 로딩하지 않는다!

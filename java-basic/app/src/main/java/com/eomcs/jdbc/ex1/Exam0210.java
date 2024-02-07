@@ -7,12 +7,13 @@ public class Exam0210 {
 
   public static void main(String[] args) throws Exception {
 
+
     java.sql.Connection con = null;
 
     try {
       // JVM에서 jdbc driver 파일(.jar/META-INF/services/java.sql.Driver 파일)을 뒤져서
       // java.sql.Driver 를 구현한 클래스를 알아내어 자동으로 로딩하기 때문에,
-      // 다음과 같이 명시적으로 로딩할 필요가 없다.
+      // 다음과 같이 명시적으로 Driver를 로딩할 필요가 없다.
       //      Class.forName("org.mariadb.jdbc.Driver");
 
       // DBMS에 연결하기

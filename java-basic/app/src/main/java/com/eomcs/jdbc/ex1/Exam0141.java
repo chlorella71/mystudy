@@ -29,7 +29,7 @@ public class Exam0141 {
 
       // DriverManager에 자동 등록된 것을 확인해보자!
       java.sql.Driver driver = DriverManager.getDriver("jdbc:mariadb://");
-      System.out.println(driver);
+      //      System.out.println(driver);
 
       // 그럼에도 MariaDB Driver를 찾을 수 있다!
       // 왜?
@@ -45,13 +45,13 @@ public class Exam0141 {
       // 이들 드라이버도 'service-provider loading' 규칙에 따라 만들어졌기 때문에
       // 따로 Driver 구현체를 생성한다거나 등록한다거나 클래스를 로딩하는 일을 하지 않아도
       // 드라이버를 찾을 수 있을 것이다.
-      java.sql.Driver driver2 = DriverManager.getDriver("jdbc:oracle:thin://");
-      System.out.println(driver2);
-
-      java.sql.Driver driver3 = DriverManager.getDriver("jdbc:sqlserver://");
-      System.out.println(driver3);
-
-      System.out.println("테스트!");
+      //      java.sql.Driver driver2 = DriverManager.getDriver("jdbc:oracle:thin://");
+      //      System.out.println(driver2);
+      //
+      //      java.sql.Driver driver3 = DriverManager.getDriver("jdbc:sqlserver://");
+      //      System.out.println(driver3);
+      //
+      //      System.out.println("테스트!");
 
     } catch (Exception e) {
       e.printStackTrace();
