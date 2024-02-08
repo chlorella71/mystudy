@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.util.Scanner;
 
-public class Prompt {
+public class Prompt implements AutoCloseable{
 
   private Scanner keyIn;
 
