@@ -16,7 +16,8 @@ public class ClientApp {
   public static void main(String[] args) {
     new ClientApp()
         .server("localhost")
-//        .server("192.168.0.49")
+//        .server("192.168.0.49") //심현우님
+        //        .server("192.168.0.56") //엄진영강사님
         .port(8888)
         .run();
   }

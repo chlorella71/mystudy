@@ -3,23 +3,35 @@ package bitcamp.myapp.dao.mysql;
 import bitcamp.myapp.dao.DaoException;
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.vo.Member;
+import bitcamp.util.DBConnectionPool;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemberDaoImpl implements MemberDao {
 
-  Connection con;
+DBConnectionPool connectionPool;
+//  Connection con;
 
-  public MemberDaoImpl(Connection con) {
-    this.con = con;
+//  public MemberDaoImpl(Connection con) {
+//    this.con = con;
+//  }
+  public MemberDaoImpl(DBConnectionPool connectionPool) {
+    this.connectionPool = connectionPool;
   }
 
   @Override
   public void add(Member member) {
+    Connection con = null;
+
+    try {
+      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
+//      con = DriverManager.getConnection(
+////          "jdbc:mysql://localhost/studydb", "study", "1111");
+//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
+
     try (      PreparedStatement pstmt = con.prepareStatement(
         "insert into members(email,name,password) values(?,?,sha2(?,256))")) {
       pstmt.setString(1, member.getEmail());
@@ -27,51 +39,88 @@ public class MemberDaoImpl implements MemberDao {
       pstmt.setString(3, member.getPassword());
 
       pstmt.executeUpdate();
-
+    }
     } catch (Exception e) {
       throw new DaoException("데이터 입력 오류", e);
+//    } finally {
+//      try {
+//        con.close();
+//      } catch (Exception e) {
+//      }
     }
   }
 
   @Override
   public int delete(int no) {
+    Connection con = null;
+
+    try {
+      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
+//      con = DriverManager.getConnection(
+////          "jdbc:mysql://localhost/studydb", "study", "1111");
+//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
     try (PreparedStatement pstmt = con.prepareStatement(
         "delete from members where member_no=?")) {
       pstmt.setInt(1, no);
 
       return pstmt.executeUpdate();
+    }
 
     } catch (Exception e) {
       throw new DaoException("데이터 변경 오류", e);
+//    } finally {
+//      try {
+//        con.close();
+//      } catch (Exception e) {
+//      }
     }
   }
 
   @Override
   public List<Member> findAll() {
+    Connection con = null;
+
+    try {
+      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
+//      con = DriverManager.getConnection(
+////          "jdbc:mysql://localhost/studydb", "study", "1111");
+//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
     try (PreparedStatement pstmt = con.prepareStatement(
         "select * from members order by member_no desc");
         ResultSet rs = pstmt.executeQuery()) {
 
-    ArrayList<Member> list = new ArrayList<>();
+      ArrayList<Member> list = new ArrayList<>();
 
-    while (rs.next()) {
-      Member member = new Member();
-      member.setNo(rs.getInt("member_no"));
-      member.setEmail(rs.getString("email"));
-      member.setName(rs.getString("name"));
-      member.setCreatedDate(rs.getDate("created_date"));
+      while (rs.next()) {
+        Member member = new Member();
+        member.setNo(rs.getInt("member_no"));
+        member.setEmail(rs.getString("email"));
+        member.setName(rs.getString("name"));
+        member.setCreatedDate(rs.getDate("created_date"));
 
-      list.add(member);
+        list.add(member);
+      }
+      return list;
     }
-    return list;
-
     } catch (Exception e) {
       throw new DaoException("데이처 가져오기 오류", e);
+//    } finally {
+//      try {
+//        con.close();
+//      } catch (Exception e) {
+//      }
     }
   }
 
   @Override
   public Member findBy(int no) {
+    Connection con = null;
+
+    try {
+      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
+//      con = DriverManager.getConnection(
+////          "jdbc:mysql://localhost/studydb", "study", "1111");
+//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
     try (      PreparedStatement pstmt = con.prepareStatement(
         "select * from members where member_no =?")) {
 
@@ -90,14 +139,26 @@ public class MemberDaoImpl implements MemberDao {
         }
         return null;
       }
-
+    }
     } catch (Exception e) {
       throw new DaoException("데이처 가져오기 오류", e);
+//    } finally {
+//      try {
+//        con.close();
+//      } catch (Exception e) {
+//      }
     }
   }
 
   @Override
   public int update(Member member) {
+    Connection con = null;
+
+    try {
+      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
+//      con = DriverManager.getConnection(
+////          "jdbc:mysql://localhost/studydb", "study", "1111");
+//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
     try (      PreparedStatement pstmt = con.prepareStatement(
         "update members set email=?, name=?, password=sha2(?,256) where member_no=?")
     ) {
@@ -106,9 +167,14 @@ public class MemberDaoImpl implements MemberDao {
       pstmt.setString(3, member.getPassword());
       pstmt.setInt(4, member.getNo());
       return pstmt.executeUpdate();
-
+    }
     } catch (Exception e) {
       throw new DaoException("데이터 변경 오류", e);
+//    } finally {
+//      try {
+//        con.close();
+//      } catch (Exception e) {
+//      }
     }
   }
 }
