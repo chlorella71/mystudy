@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 
-public class DBConnectionPool {
+public class DBConnectionPool implements ConnectionPool{
 
-  // DB 커넥션 목록
-  ArrayList<Connection> connections = new ArrayList<>();
+
 
   //개별 스레드 전용 DB 커넥션 저장소
   private static final ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<>();
+  // DB 커넥션 목록
+  ArrayList<Connection> connections = new ArrayList<>();
   private String jdbcUrl;
   private String username;
   private String password;
@@ -36,7 +37,8 @@ public class DBConnectionPool {
       } else {
         //스레드풀에도 놀고 있는 Connection이 없다면,
         //새로 Connection을 만든다.
-        con = DriverManager.getConnection(jdbcUrl, username, password);
+        con = new ConnectionProxy(DriverManager.getConnection(jdbcUrl, username, password), this);
+//        con = DriverManager.getConnection(jdbcUrl, username, password);
         //  "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123"
         System.out.printf("%s: DB 커넥션 생성\n", Thread.currentThread().getName());
 
@@ -65,6 +67,12 @@ public class DBConnectionPool {
 //      }
 //      connectionThreadLocal.remove();
       System.out.printf("%s: DB 커넥션을 커넥션풀에 반환\n", Thread.currentThread().getName());
+    }
+
+    public void closeAll() {
+    for (Connection con : connections) {
+      ((ConnectionProxy) con).realClose();
+    }
     }
   }
 

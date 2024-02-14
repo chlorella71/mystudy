@@ -9,7 +9,7 @@ import java.sql.Connection;
 
 public class AssignmentModifyHandler extends AbstractMenuHandler {
 
-  private DBConnectionPool connectionPool;
+//  private DBConnectionPool connectionPool;
   private AssignmentDao assignmentDao;
 
 //  public AssignmentModifyHandler(AssignmentDao assignmentDao, Prompt prompt) {
@@ -17,8 +17,12 @@ public class AssignmentModifyHandler extends AbstractMenuHandler {
 //    this.assignmentDao = assignmentDao;
 //  }
 
-  public AssignmentModifyHandler(DBConnectionPool connectionPool, AssignmentDao assignmentDao) {
-    this.connectionPool = connectionPool;
+//  public AssignmentModifyHandler(DBConnectionPool connectionPool, AssignmentDao assignmentDao) {
+//    this.connectionPool = connectionPool;
+//    this.assignmentDao = assignmentDao;
+//  }
+
+  public AssignmentModifyHandler(AssignmentDao assignmentDao) {
     this.assignmentDao = assignmentDao;
   }
 
@@ -58,9 +62,9 @@ public class AssignmentModifyHandler extends AbstractMenuHandler {
 
   @Override
   protected void action(Prompt prompt) {
-    Connection con = null;
+//    Connection con = null;
     try {
-      con = connectionPool.getConnection();
+//      con = connectionPool.getConnection();
 
       int no = prompt.inputInt("번호? ");
 
@@ -89,8 +93,8 @@ public class AssignmentModifyHandler extends AbstractMenuHandler {
     } catch (Exception e) {
       prompt.println("실행 오류!");
       e.printStackTrace();
-    } finally {
-      connectionPool.returnConnection(con);
+//    } finally {
+//      connectionPool.returnConnection(con);
     }
 
   }

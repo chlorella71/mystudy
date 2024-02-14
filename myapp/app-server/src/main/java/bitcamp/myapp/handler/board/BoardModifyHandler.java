@@ -1,25 +1,35 @@
 package bitcamp.myapp.handler.board;
 
 import bitcamp.menu.AbstractMenuHandler;
+import bitcamp.myapp.dao.AttachedFileDao;
 import bitcamp.myapp.dao.BoardDao;
+import bitcamp.myapp.vo.AttachedFile;
 import bitcamp.myapp.vo.Board;
 import bitcamp.util.DBConnectionPool;
 import bitcamp.util.Prompt;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardModifyHandler extends AbstractMenuHandler {
 
-  DBConnectionPool connectionPool;
+//  DBConnectionPool connectionPool;
   private BoardDao boardDao;
+  private AttachedFileDao attachedFileDao;
 
 //  public BoardModifyHandler(BoardDao boardDao, Prompt prompt) {
 //    super(prompt);
 //    this.boardDao = boardDao;
 //  }
 
-  public BoardModifyHandler(DBConnectionPool connectionPool, BoardDao boardDao) {
-    this.connectionPool = connectionPool;
+//  public BoardModifyHandler(DBConnectionPool connectionPool, BoardDao boardDao) {
+//    this.connectionPool = connectionPool;
+//    this.boardDao = boardDao;
+//  }
+
+  public BoardModifyHandler(BoardDao boardDao, AttachedFileDao attachedFileDao) {
     this.boardDao = boardDao;
+    this.attachedFileDao = attachedFileDao;
   }
 
 //  @Override
@@ -45,9 +55,9 @@ public class BoardModifyHandler extends AbstractMenuHandler {
 
   @Override
   protected void action(Prompt prompt) {
-    Connection con = null;
+//    Connection con = null;
     try {
-      con = connectionPool.getConnection();
+//      con = connectionPool.getConnection();
       int no = prompt.inputInt("번호? ");
 
       Board oldBoard = boardDao.findBy(no);
@@ -63,14 +73,41 @@ public class BoardModifyHandler extends AbstractMenuHandler {
       board.setWriter(prompt.input("작성자(%s)? ", oldBoard.getWriter()));
       board.setCreatedDate(oldBoard.getCreatedDate());
 
+      List<AttachedFile> files = attachedFileDao.findAllByBoardNo(no);
+
+      prompt.println("첨부파일:");
+
+      for (AttachedFile file : files) {
+        prompt.printf(" %s\n", file.getFilePath());
+      }
+      try {
+        int no2 = prompt.inputInt(
+            "첨부파일 추가(1)/삭제(2)? ");
+
+        if (no2 ==1) {
+          while (true) {
+            String filepath = prompt.input("파일?(종료: 그냥 엔터) ");
+            if (filepath.length() == 0) {
+              break;
+            }
+//      AttachedFile file = new AttachedFile().filePath(filepath);
+//      file.setFilePath(filepath);
+            files.add(new AttachedFile().filePath(filepath));
+          }
+
+        }
+      } catch (Exception e) {
+        prompt.println("첨부파일 변경 오류!");
+      }
+
       boardDao.update(board);
       prompt.println("게시글을 변경했습니다.");
 
     } catch (Exception e) {
       prompt.println("변경 오류!");
 
-    } finally {
-      connectionPool.returnConnection(con);
+//    } finally {
+//      connectionPool.returnConnection(con);
     }
   }
 }

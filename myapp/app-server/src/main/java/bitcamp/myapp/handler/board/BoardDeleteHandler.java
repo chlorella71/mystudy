@@ -8,7 +8,7 @@ import java.sql.Connection;
 
 public class BoardDeleteHandler extends AbstractMenuHandler {
 
-  private DBConnectionPool connectionPool;
+//  private DBConnectionPool connectionPool;
   private BoardDao boardDao;
 
 //  public BoardDeleteHandler(BoardDao boardDao, Prompt prompt) {
@@ -16,8 +16,12 @@ public class BoardDeleteHandler extends AbstractMenuHandler {
 //    this.boardDao = boardDao;
 //  }
 
-  public BoardDeleteHandler(DBConnectionPool connectionPool, BoardDao boardDao) {
-    this.connectionPool = connectionPool;
+//  public BoardDeleteHandler(DBConnectionPool connectionPool, BoardDao boardDao) {
+//    this.connectionPool = connectionPool;
+//    this.boardDao = boardDao;
+//  }
+
+  public BoardDeleteHandler(BoardDao boardDao) {
     this.boardDao = boardDao;
   }
 
@@ -33,9 +37,9 @@ public class BoardDeleteHandler extends AbstractMenuHandler {
 
   @Override
   protected void action(Prompt prompt) {
-    Connection con = null;
+//    Connection con = null;
     try {
-      con = connectionPool.getConnection();
+//      con = connectionPool.getConnection();
     int no = prompt.inputInt("번호? ");
     if (boardDao.delete(no) == 0) {
       prompt.println("게시글 번호가 유효하지 않습니다.");
@@ -45,8 +49,8 @@ public class BoardDeleteHandler extends AbstractMenuHandler {
     } catch (Exception e) {
       prompt.println("삭제 오류!");
 
-    } finally {
-      connectionPool.returnConnection(con);
+//    } finally {
+//      connectionPool.returnConnection(con);
     }
   }
 }

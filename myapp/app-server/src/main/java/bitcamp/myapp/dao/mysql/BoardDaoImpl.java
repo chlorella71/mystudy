@@ -45,17 +45,10 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public void add(Board board) {
-    Connection con = null;
-
-    try {
-      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
-//      con = DriverManager.getConnection(
-////          "jdbc:mysql://localhost/studydb", "study", "1111");
-//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
-//      con.setAutoCommit(false);
-
-      try (PreparedStatement pstmt = con.prepareStatement(
-          "insert into boards(title,content,writer,category) values(?, ?, ?, ?)")) {
+    try (Connection con = connectionPool.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(
+          "insert into boards(title,content,writer,category) values(?, ?, ?, ?)",
+            PreparedStatement.RETURN_GENERATED_KEYS)) {
 
         pstmt.setString(1, board.getTitle());
         pstmt.setString(2, board.getContent());
@@ -63,8 +56,13 @@ public class BoardDaoImpl implements BoardDao {
         pstmt.setInt(4, category);
 
         pstmt.executeUpdate();
-      }
 //      con.commit();
+
+      // 자동 생성된 PK 값을 가져와서 Board 객체에 저장한다.
+      try (ResultSet keyRs = pstmt.getGeneratedKeys()) {
+        keyRs.next();
+        board.setNo(keyRs.getInt(1));
+      }
 
     } catch (Exception e) {
 //      try {
@@ -86,23 +84,15 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int delete(int no) {
-    Connection con = null;
-
-    try {
-      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
-//      con = DriverManager.getConnection(
-////          "jdbc:mysql://localhost/studydb", "study", "1111");
-//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
-
-      try (PreparedStatement pstmt = con.prepareStatement(
+    try (Connection con = connectionPool.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(
           "delete from boards where board_no=?")) {
         pstmt.setInt(1, no);
 
         return pstmt.executeUpdate();
-      }
 
     } catch (Exception e) {
-      throw new DaoException("데이터 입력 오류!", e);
+      throw new DaoException("데이터 삭제 오류!", e);
 //    } finally {
 //      try {
 //        con.close();
@@ -113,18 +103,43 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public List<Board> findAll() {
-    Connection con = null;
-
-    try {
-      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
-//      con = DriverManager.getConnection(
-////          "jdbc:mysql://localhost/studydb", "study", "1111");
-//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
-
-      try (PreparedStatement pstmt = con.prepareStatement(
-          "select board_no, title, writer, created_date"
-              + " from boards where category=? order by board_no desc")) {
-
+    try (Connection con = connectionPool.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(
+//          "select board_no, title, writer, created_date"
+//              + " from boards where category=? order by board_no desc")) {
+            "select\n"
+                + " b.board_no,\n"
+                + " b.title,\n"
+                + " b.writer,\n"
+                + " b.created_date,\n"
+                + " count(file_no) file_count\n"
+                + " from\n"
+                + " boards b left outer join board_files bf on b.board_no=bf.board_no\n"
+                + " where\n"
+                + " b.category=?\n"
+                + " group by\n"
+                + " b.board_no\n"
+                + " order by\n"
+                + " board_no desc")) {
+/*
+    select
+      b.board_no,
+      b.title,
+      b.writer,
+      b.created_date,
+      count(file_no) file_count
+--      bf.file_no,
+--      bf.file_path
+    from
+      boards b left outer join board_files bf on b.board_no=bf.board_no
+    where
+      b.category=1
+    group by
+      b.board_no
+    order by
+      board_no desc
+    ;
+  */
         pstmt.setInt(1, category);
 
         try (ResultSet rs = pstmt.executeQuery()) {
@@ -137,12 +152,12 @@ public class BoardDaoImpl implements BoardDao {
             board.setTitle(rs.getString("title"));
             board.setWriter(rs.getString("writer"));
             board.setCreatedDate(rs.getDate("created_date"));
+            board.setFileCount(rs.getInt("file_count"));
 
             list.add(board);
           }
           return list;
         }
-      }
 
     } catch (Exception e) {
       throw new DaoException("데이터 가져오기 오류!", e);
@@ -156,15 +171,7 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public Board findBy(int no) {
-    Connection con = null;
-
-    try {
-      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
-//      con = DriverManager.getConnection(
-////          "jdbc:mysql://localhost/studydb", "study", "1111");
-//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
-
-      try (PreparedStatement pstmt = con.prepareStatement(
+    try (Connection con = connectionPool.getConnection();PreparedStatement pstmt = con.prepareStatement(
           "select * from boards where board_no =?")) {
 
         pstmt.setInt(1, no);
@@ -183,7 +190,6 @@ public class BoardDaoImpl implements BoardDao {
           }
           return null;
         }
-      }
 
     } catch (Exception e) {
       throw new DaoException("데이터 가져오기 오류!", e);
@@ -197,15 +203,8 @@ public class BoardDaoImpl implements BoardDao {
 
   @Override
   public int update(Board board) {
-    Connection con = null;
-
-    try {
-      con = connectionPool.getConnection(); // 현재 스레드에 보관된 Connection 객체를 꺼낸다. 없으면 만들어준다.
-//      con = DriverManager.getConnection(
-////          "jdbc:mysql://localhost/studydb", "study", "1111");
-//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
-
-      try (PreparedStatement pstmt = con.prepareStatement(
+    try (Connection con = connectionPool.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(
           "update boards set title=?, content=?, writer=? where board_no=?")
       ) {
         pstmt.setString(1, board.getTitle());
@@ -214,7 +213,6 @@ public class BoardDaoImpl implements BoardDao {
         pstmt.setInt(4, board.getNo());
 
         return pstmt.executeUpdate();
-      }
 
     } catch (Exception e) {
       throw new DaoException("데이터 입력 오류!", e);

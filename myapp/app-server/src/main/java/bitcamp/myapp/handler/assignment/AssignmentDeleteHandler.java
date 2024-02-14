@@ -8,7 +8,7 @@ import java.sql.Connection;
 
 public class AssignmentDeleteHandler extends AbstractMenuHandler {
 
-  private DBConnectionPool connectionPool;
+//  private DBConnectionPool connectionPool;
   private AssignmentDao assignmentDao;
 
 //  public AssignmentDeleteHandler(AssignmentDao assignmentDao, Prompt prompt) {
@@ -16,8 +16,12 @@ public class AssignmentDeleteHandler extends AbstractMenuHandler {
 //    this.assignmentDao = assignmentDao;
 //  }
 
-  public AssignmentDeleteHandler(DBConnectionPool connectionPool, AssignmentDao assignmentDao) {
-    this.connectionPool = connectionPool;
+//  public AssignmentDeleteHandler(DBConnectionPool connectionPool, AssignmentDao assignmentDao) {
+//    this.connectionPool = connectionPool;
+//    this.assignmentDao = assignmentDao;
+//  }
+
+  public AssignmentDeleteHandler(AssignmentDao assignmentDao) {
     this.assignmentDao = assignmentDao;
   }
 
@@ -38,9 +42,9 @@ public class AssignmentDeleteHandler extends AbstractMenuHandler {
 
   @Override
   protected void action(Prompt prompt) {
-    Connection con = null;
+//    Connection con = null;
     try {
-      con = connectionPool.getConnection();
+//      con = connectionPool.getConnection();
       int no = prompt.inputInt("번호? ");
       if (assignmentDao.delete(no) == 0) {
         prompt.println("과제 번호가 유효하지 않습니다!");
@@ -51,8 +55,8 @@ public class AssignmentDeleteHandler extends AbstractMenuHandler {
     } catch (Exception e) {
       prompt.println("삭제 오류!");
 
-    } finally {
-      connectionPool.returnConnection(con);
+//    } finally {
+//      connectionPool.returnConnection(con);
     }
   }
 }
