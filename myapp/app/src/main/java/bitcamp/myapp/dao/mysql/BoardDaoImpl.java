@@ -184,6 +184,7 @@ public class BoardDaoImpl implements BoardDao {
           "select\n"
               + " b.board_no,\n"
               + " b.title,\n"
+              + " b.content,\n"
               + " b.created_date,\n"
               + " m.member_no\n,"
               + " m.name\n"

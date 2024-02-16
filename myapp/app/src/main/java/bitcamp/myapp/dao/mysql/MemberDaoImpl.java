@@ -146,7 +146,7 @@ DBConnectionPool connectionPool;
   public Member findByEmailAndPassword(String email, String password) {
     try (Connection con = connectionPool.getConnection();
         PreparedStatement pstmt = con.prepareStatement(
-            "select member_no, email, name, created_date from members where email=? and password=sha2(?,256")) {
+            "select member_no, email, name, created_date from members where email=? and password=sha2(?,256)")) {
       pstmt.setString(1, email);
       pstmt.setString(2, password);
 

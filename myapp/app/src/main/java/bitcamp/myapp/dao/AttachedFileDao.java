@@ -17,6 +17,8 @@ public interface AttachedFileDao {
 
   List<AttachedFile> findAllByBoardNo(int boardNo);
 
+  AttachedFile findByNo(int no);
+
   // 첨부파일은 조회하거나 변경하도록 다루지는 않음.
   // 오직 등록, 삭제, 목록만
 //  Board findBy(int no);
