@@ -8,6 +8,7 @@ import bitcamp.myapp.vo.AttachedFile;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Member;
 import bitcamp.util.DBConnectionPool;
+import bitcamp.util.TransactionManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -34,16 +35,22 @@ public class BoardFileDeleteServlet extends HttpServlet {
 //    this.boardDao = boardDao;
 //  }
 
-  public BoardFileDeleteServlet() {
-    DBConnectionPool connectionPool = new DBConnectionPool(
-        "jdbc:mysql://localhost/studydb", "study", "1111"
-//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123"
-    );
-    this.boardDao = new BoardDaoImpl(connectionPool, 1);
-    this.attachedFileDao = new AttachedFileDaoImpl(connectionPool);
+//  public BoardFileDeleteServlet() {
+//    DBConnectionPool connectionPool = new DBConnectionPool(
+//        "jdbc:mysql://localhost/studydb", "study", "1111"
+////          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123"
+//    );
+//    this.boardDao = new BoardDaoImpl(connectionPool);
+//    this.attachedFileDao = new AttachedFileDaoImpl(connectionPool);
+//
+////    this.boardDao = boardDao;
+////    this.attachedFileDao = attachedFileDao;
+//  }
 
-//    this.boardDao = boardDao;
-//    this.attachedFileDao = attachedFileDao;
+  @Override
+  public void init() throws ServletException {
+    this.boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
+    this.attachedFileDao = (AttachedFileDao) this.getServletContext().getAttribute("attachedFileDao");
   }
 
 //  @Override
@@ -68,6 +75,9 @@ public class BoardFileDeleteServlet extends HttpServlet {
   protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+    int category = Integer.valueOf(request.getParameter("category"));
+    String title = category == 1 ? "게시글" : "가입인사";
+
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
 
@@ -80,7 +90,7 @@ public class BoardFileDeleteServlet extends HttpServlet {
     out.println("<title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>게시글</h1>");
+    out.printf("<h1>%s</h1>\n", title);
 
 Member loginUser = (Member) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {

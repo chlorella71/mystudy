@@ -7,18 +7,17 @@
 <body>
 <h1>과제 관리 시스템</h1>
 
-<h2>게시글</h2>
+<h2>회원</h2>
 
-<form action="/board/add">
-  <input name="category" value="2">
+<form action="/member/add">
   <div>
-    제목: <input type="text" name="title">
+    이메일: <input type="text" name="email">
   </div>
   <div>
-  내용: <textarea name="content"></textarea>
+  이름: <input name="name" type="text"></input>
   </div>
   <div>
-    첨부파일: <input name="files" type="file" multiple>
+    암호: <input name="password" type="password">
   </div>
   <div>
     <button>등록</button>

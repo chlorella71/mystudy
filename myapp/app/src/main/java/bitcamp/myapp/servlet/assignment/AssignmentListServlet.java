@@ -1,13 +1,9 @@
-package bitcamp.myapp.servlet.board;
+package bitcamp.myapp.servlet.assignment;
 
-import bitcamp.menu.AbstractMenuHandler;
-import bitcamp.myapp.dao.AttachedFileDao;
-import bitcamp.myapp.dao.BoardDao;
-import bitcamp.myapp.dao.mysql.BoardDaoImpl;
-import bitcamp.myapp.vo.Board;
+import bitcamp.myapp.dao.AssignmentDao;
+import bitcamp.myapp.dao.mysql.AssignmentDaoImpl;
+import bitcamp.myapp.vo.Assignment;
 import bitcamp.util.DBConnectionPool;
-import bitcamp.util.Prompt;
-import bitcamp.util.TransactionManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -16,49 +12,51 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 
-@WebServlet("/board/list")
-public class BoardListServlet extends GenericServlet {
+@WebServlet("/assignment/list")
+public class AssignmentListServlet extends HttpServlet {
 
 //  private DBConnectionPool connectionPool;
-  private BoardDao boardDao;
+  private AssignmentDao assignmentDao;
 
-//  public BoardListHandler(BoardDao boardDao, Prompt prompt) {
+//  public AssignmentListHandler(AssignmentDao assignmentDao, Prompt prompt) {
 //    super(prompt);
-//    this.boardDao = boardDao;
+//    this.assignmentDao = assignmentDao;
 //  }
 
-//  public BoardListHandler(DBConnectionPool connectionPool, BoardDao boardDao) {
+//  public AssignmentListHandler(DBConnectionPool connectionPool, AssignmentDao assignmentDao) {
 //    this.connectionPool = connectionPool;
-//    this.boardDao = boardDao;
+//    this.assignmentDao = assignmentDao;
 //  }
 
-//  public BoardListServlet() {
+//  public AssignmentListServlet() {
 //    DBConnectionPool connectionPool = new DBConnectionPool(
 //        "jdbc:mysql://localhost/studydb", "study", "1111"
 ////          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123"
 //    );
 //
-//    this.boardDao = new BoardDaoImpl(connectionPool);
+//    this.assignmentDao = new AssignmentDaoImpl(connectionPool);
 //  }
 
-  @Override
   public void init() throws ServletException {
-    this.boardDao = (BoardDao) this.getServletContext().getAttribute("boardDao");
+//    ServletContext 웹애플리케이션저장소 = this.getServletContext();
+//    assignmentDao = (AssignmentDao) 웹애플리케이션저장소.getAttribute("assignmentDao");
+    assignmentDao = (AssignmentDao) this.getServletContext().getAttribute("assignmentDao");
   }
 
 //  @Override
 //  protected void action() {
 //    System.out.printf("%-4s\t%-20s\t%10s\t%s\n", "No", "Title", "Writer", "Date");
 //
-//    List<Board> list = boardDao.findAll();
+//    List<Assignment> list = assignmentDao.findAll();
 //
-//    for (Board board : list) {
+//    for (Assignment assignment : list) {
 //      System.out.printf("%-4d\t%-20s\t%10s\t%4$tY-%4$tm-%4$td\n",
-//        board.getNo(),
-//        board.getTitle(),
-//        board.getWriter(),
-//        board.getCreatedDate());
+//        assignment.getNo(),
+//        assignment.getTitle(),
+//        assignment.getWriter(),
+//        assignment.getCreatedDate());
 //    }
 //  }
 
@@ -66,9 +64,6 @@ public class BoardListServlet extends GenericServlet {
   @Override
   public void service(ServletRequest servletRequest, ServletResponse servletResponse)
       throws ServletException, IOException {
-
-    int category = Integer.valueOf(servletRequest.getParameter("category"));
-String title = category == 1 ? "게시글" : "가입인사";
 
 //    servletResponse.setContentType("text/plain;charset=UTF-8");
     servletResponse.setContentType("text/html;charset=UTF-8");
@@ -83,29 +78,26 @@ String title = category == 1 ? "게시글" : "가입인사";
     out.println("<title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.printf("<h1>%s</h1>\n", title);
+    out.println("<h1>과제</h1>");
 
-    out.printf("<a href='/board/form?category=%d'>새 글</a>", category);
+    out.println("<a href='/assignment/form.html'>새 과제</a>");
 
     try {
 //      con = connectionPool.getConnection();
 //      out.printf("%-4s\t%-20s\t%10s\t%s\t%s\n", "No", "Title", "Writer", "Date", "Files");
       out.println("<table border='1'>");
       out.println("<thead>");
-      out.println("<tr> <th>번호</th> <th>제목</th> <th>작성자</th> <th>등록일</th> <th>첨부파일</th> </tr>");
+      out.println("<tr> <th>번호</th> <th>과제</th> <th>제출마감일</th> </tr>");
       out.println("</thead>");
       out.println("<tbody>");
 
-      List<Board> list = boardDao.findAll(category);
+      List<Assignment> list = assignmentDao.findAll();
 
-      for (Board board : list) {
-        out.printf("<tr> <td>%d</td> <td><a href='/board/view?category=%d&no=%1$d'>%s</a></td> <td>%s</td> <td>%s</td> <td>%d</td> </tr>\n",
-            board.getNo(),
-            category,
-            board.getTitle(),
-            board.getWriter().getName(),
-            board.getCreatedDate(),
-            board.getFileCount());
+      for (Assignment assignment : list) {
+        out.printf("<tr> <td>%d</td> <td><a href='/assignment/view?no=%1$d'>%s</a></td> <td>%s</td> </tr>\n",
+            assignment.getNo(),
+            assignment.getTitle(),
+            assignment.getDeadline());
       }
 
       out.println("</tbody>");

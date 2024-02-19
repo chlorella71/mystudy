@@ -13,31 +13,40 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/auth/login")
-public class LoginServlet extends GenericServlet {
+//public class LoginServlet extends GenericServlet {
+public class LoginServlet extends HttpServlet {
 
   MemberDao memberDao;
 
-  public LoginServlet() {
-    DBConnectionPool connectionPool = new DBConnectionPool(
-        "jdbc:mysql://localhost/studydb", "study", "1111"
-//          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123"
-    );
-    this.memberDao = new MemberDaoImpl(connectionPool);
+//  public LoginServlet() {
+//    DBConnectionPool connectionPool = new DBConnectionPool(
+//        "jdbc:mysql://localhost/studydb", "study", "1111"
+////          "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123"
+//    );
+//    this.memberDao = new MemberDaoImpl(connectionPool);
+//  }
+
+
+  @Override
+  public void init() throws ServletException {
+    this.memberDao = (MemberDao) this.getServletContext().getAttribute("memberDao");
   }
 
   @Override
-  public void service(ServletRequest servletRequest, ServletResponse servletResponse)
+//  public void service(ServletRequest servletRequest, ServletResponse servletResponse)
+  protected void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     // 서블릿 컨테이너가 service()를 호출할 때 넘겨주는 값을
     // HttpServletRequest와 HttpServletResponse이다.
     // 파라미터로 넘어 온 객체를 제대로 사용하고 싶다면 원래 타입으로 형변환하라!
-    HttpServletRequest request = (HttpServletRequest) servletRequest;
-    HttpServletResponse response = (HttpServletResponse) servletResponse;
+//    HttpServletRequest request = (HttpServletRequest) servletRequest;
+//    HttpServletResponse response = (HttpServletResponse) servletResponse;
 
     String email =  request.getParameter("email");
     String password = request.getParameter("password");
