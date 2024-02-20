@@ -55,8 +55,8 @@ public class App {
         try {
 
             Connection con = DriverManager.getConnection(
-//          "jdbc:mysql://localhost/studydb", "study", "1111");
-                "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
+          "jdbc:mysql://localhost/studydb", "study", "1111");
+//                "jdbc:mysql://db-ld29t-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
 
             customerDao = new CustomerDaoImpl(con);
             reservationDao = new ReservationDaoImpl(con);
