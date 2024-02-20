@@ -1,4 +1,4 @@
-package util;
+package jeonghuijun.util;
 
 public class AnsiEscape {
 

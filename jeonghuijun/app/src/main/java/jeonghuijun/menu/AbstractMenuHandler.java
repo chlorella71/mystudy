@@ -1,4 +1,4 @@
-package menu;
+package jeonghuijun.menu;
 
 import jeonghuijun.util.AnsiEscape;
 import jeonghuijun.util.Prompt;

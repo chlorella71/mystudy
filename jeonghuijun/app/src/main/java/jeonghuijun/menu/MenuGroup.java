@@ -1,4 +1,4 @@
-package menu;
+package jeonghuijun.menu;
 
 import jeonghuijun.util.Prompt;
 import java.util.Iterator;
@@ -31,7 +31,7 @@ public class MenuGroup extends AbstractMenu {
     while (true) {
       String input = prompt.input("%s> ", this.getMenuPath());
 
-      if (input.equals("menu")) {
+      if (input.equals("jeonghuijun/menu")) {
         this.printMenu();
         continue;
       } else if (input.equals("0")) {

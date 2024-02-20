@@ -1,4 +1,4 @@
-package menu;
+package jeonghuijun.menu;
 
 import java.util.Stack;
 

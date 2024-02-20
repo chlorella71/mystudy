@@ -1,4 +1,4 @@
-package util;
+package jeonghuijun.util;
 
 import java.io.InputStream;
 import java.sql.Date;
