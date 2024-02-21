@@ -40,7 +40,7 @@ alter table reservations
   add constraint primary key (r_no),
   modify r_no int not null auto_increment,
   add constraint reservations_fk foreign key (c_no) references customers(c_no),
-  add constraint reservations_fk foreign key (d_no) references designers(d_no);
+  add constraint reservations_fk2 foreign key (d_no) references designers(d_no);
 
 create table designers (
   d_no int not null,
@@ -55,17 +55,16 @@ alter table designers
   add constraint designers_uk unique key (name);
 
 create table s_counts (
-  add d_no int not null,
-  add date date not null,
-  add service varchar(50) not null,
-  add count int not null
+  d_no int not null,
+  date date not null,
+  service varchar(50) not null,
+  count int not null
 );
 
 alter table s_counts
-  add constraint primary key (d_no),
-  add constraint primary key (date),
+  add constraint primary key (d_no, date),
   add constraint s_counts_fk foreign key (d_no) references designers(d_no),
-  add constraint s_counts_fk foreign key (service) references s_lists;
+  add constraint s_counts_fk2 foreign key (service) references s_lists(s_list);
 
 create table s_lists (
   s_list varchar(50) not null,
@@ -79,3 +78,24 @@ alter table s_lists
   add constraint primary key (s_list),
   add constraint s_lists_uk unique key (name),
   add constraint s_lists_fk foreign key (s_no) references s_classes(s_no);
+
+create table s_reservations (
+  r_no int not null,
+  s_list varchar(50) not null
+);
+
+alter table s_reservations
+  add constraint primary key (r_no, s_list),
+  add constraint s_reservations_fk foreign key (r_no) references reservations(r_no),
+  add constraint s_reservations_fk2 foreign key (s_list) references s_lists(s_list);
+
+create table s_classes (
+  s_no int not null,
+  name varchar(50) not null,
+  yn boolean not null
+);
+
+alter table s_classes
+  add constraint primary key (s_no),
+  modify s_no int not null auto_increment,
+  add constraint s_classes_uk unique key (name);
