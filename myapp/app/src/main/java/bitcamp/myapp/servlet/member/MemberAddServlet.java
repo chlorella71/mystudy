@@ -63,22 +63,8 @@ public class MemberAddServlet extends HttpServlet {
 
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response)
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-
-    out.println("<!DOCTYPE html>");
-//    out.println("<html lang=\"en\">");
-    out.println("<html lang='en'>");
-    out.println("<head>");
-//    out.println("<meta charset=\"UTF-8\">");
-    out.println("<meta charset='UTF-8'>");
-    out.println("<title>비트캠프 데브옵스 5기</title>");
-    out.println("</head>");
-    out.println("<body>");
-    out.println("<h1>회원</h1>");
 
     try{
     Member member = new Member();
@@ -87,16 +73,31 @@ public class MemberAddServlet extends HttpServlet {
     member.setPassword(request.getParameter("password"));
 
     memberDao.add(member);
-    out.println("<p>회원을 등록했습니다.</p>");
+//    out.println("<p>회원을 등록했습니다.</p>");
+      response.sendRedirect("list");
 
     } catch (Exception e) {
+      response.setContentType("text/html;charset=UTF-8");
+      PrintWriter out = response.getWriter();
+
+      out.println("<!DOCTYPE html>");
+//    out.println("<html lang=\"en\">");
+      out.println("<html lang='en'>");
+      out.println("<head>");
+//    out.println("<meta charset=\"UTF-8\">");
+      out.println("<meta charset='UTF-8'>");
+      out.println("<title>비트캠프 데브옵스 5기</title>");
+      out.println("</head>");
+      out.println("<body>");
+      out.println("<h1>회원</h1>");
+
       out.println("<p>회원 등록 오류!</p>");
       out.println("<pre>");
       e.printStackTrace(out);
       out.println("</pre>");
-    }
 
-    out.println("</body>");
-    out.println("</html>");
+      out.println("</html>");
+      out.println("</body>");
+    }
   }
 }

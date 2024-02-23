@@ -13,6 +13,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/member/list")
 public class MemberListServlet extends HttpServlet {
@@ -60,12 +62,12 @@ public class MemberListServlet extends HttpServlet {
 
 
   @Override
-  public void service(ServletRequest servletRequest, ServletResponse servletResponse)
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
 //    servletResponse.setContentType("text/plain;charset=UTF-8");
-    servletResponse.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = servletResponse.getWriter();
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
 
     out.println("<!DOCTYPE html>");
 //    out.println("<html lang=\"en\">");

@@ -74,7 +74,51 @@ public class BoardAddServlet extends HttpServlet {
 
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response)
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+
+    int category = Integer.valueOf(request.getParameter("category"));
+    String title = category == 1 ? "게시글" : "가입인사";
+
+    response.setContentType("text/html;charset=UTF-8");
+    PrintWriter out = response.getWriter();
+
+    out.println("<!DOCTYPE html>");
+//    out.println("<html lang=\"en\">");
+    out.println("<html lang='en'>");
+    out.println("<head>");
+//    out.println("<meta charset=\"UTF-8\">");
+    out.println("<meta charset='UTF-8'>");
+    out.println("<title>비트캠프 데브옵스 5기</title>");
+    out.println("</head>");
+    out.println("<body>");
+    out.printf("<h1>%s</h1>\n", title);
+
+    out.printf("<form action='/board/add?category=%d' method='post'>\n", category);
+    out.printf("<input name='category' type='hidden' value='%d'>\n", category);
+    out.println("<div>");
+    out.println("제목: <input type='text' name='title'>");
+    out.println("</div>");
+    out.println("<div>");
+    out.println("내용: <textarea name='content'></textarea>");
+    out.println("</div>");
+    out.println("<div>");
+
+    if (category == 1) {
+      out.println("첨부파일: <input name='files' type='file' multiple>");
+      out.println("</div>");
+    }
+    out.println("<div>");
+    out.println("<button>등록</button>");
+    out.println("</div>");
+    out.println("</form>");
+
+    out.println("</body>");
+    out.println("</html>");
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     int category = Integer.valueOf(request.getParameter("category"));
@@ -144,7 +188,9 @@ public class BoardAddServlet extends HttpServlet {
       txManager.commit();
 //      con.commit();
 
-      out.println("<p>등록했습니다.</p>");
+//      out.println("<p>등록했습니다.</p>");
+      response.sendRedirect("/board/list?category=" + category);
+      return;
 
     } catch (Exception e) {
       try {

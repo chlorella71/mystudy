@@ -85,7 +85,7 @@ String title = category == 1 ? "게시글" : "가입인사";
     out.println("<body>");
     out.printf("<h1>%s</h1>\n", title);
 
-    out.printf("<a href='/board/form?category=%d'>새 글</a>", category);
+    out.printf("<a href='/board/add?category=%d'>새 글</a>", category);
 
     try {
 //      con = connectionPool.getConnection();

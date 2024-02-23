@@ -12,26 +12,32 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutServlet extends HttpServlet {
 
   @Override
-  public void service(HttpServletRequest request, HttpServletResponse response)
+//  public void service(HttpServletRequest request, HttpServletResponse response)
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+//링크 doGet 게시물 업로드 doPost
   throws ServletException, IOException {
 
-//      prompt.getSession().setAttribute("loginUser", null);
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
+    request.getSession().invalidate();
 
-    out.println("<!DOCTYPE html>");
-//    out.println("<html lang=\"en\">");
-    out.println("<html lang='en'>");
-    out.println("<head>");
-//    out.println("<meta charset=\"UTF-8\">");
-    out.println("<meta charset='UTF-8'>");
-    out.println("<title>비트캠프 데브옵스 5기</title>");
-    out.println("</head>");
-    out.println("<body>");
-    out.println("<h1>과제 관리 시스템</h1>");
-    out.println("<h2>로그인</h2>");
-    out.println("<p>로그아웃 했습니다!</p>");
-    out.println("</body>");
-    out.println("</html>");
+    response.sendRedirect("/index.html");
+
+////      prompt.getSession().setAttribute("loginUser", null);
+//    response.setContentType("text/html;charset=UTF-8");
+//    PrintWriter out = response.getWriter();
+//
+//    out.println("<!DOCTYPE html>");
+////    out.println("<html lang=\"en\">");
+//    out.println("<html lang='en'>");
+//    out.println("<head>");
+////    out.println("<meta charset=\"UTF-8\">");
+//    out.println("<meta charset='UTF-8'>");
+//    out.println("<title>비트캠프 데브옵스 5기</title>");
+//    out.println("</head>");
+//    out.println("<body>");
+//    out.println("<h1>과제 관리 시스템</h1>");
+//    out.println("<h2>로그인</h2>");
+//    out.println("<p>로그아웃 했습니다!</p>");
+//    out.println("</body>");
+//    out.println("</html>");
   }
 }

@@ -71,7 +71,7 @@ public class BoardDeleteServlet extends HttpServlet {
 
 
   @Override
-  protected void service(HttpServletRequest request, HttpServletResponse response)
+  protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
     int category = Integer.valueOf(request.getParameter("category"));
@@ -123,7 +123,7 @@ Member loginUser = (Member) request.getSession().getAttribute("loginUser");
       out.println("<script>");
 //      out.println("history.back();");
 //      out.println("location.href = '/board/list'");
-      out.printf("location.href = '/category=%d/list'", category);
+      out.printf("location.href = '/board/list?category=%d';\n", category);
       out.println("</script>");
 
   } catch (Exception e) {
