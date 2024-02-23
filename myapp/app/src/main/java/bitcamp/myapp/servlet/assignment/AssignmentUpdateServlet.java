@@ -69,6 +69,7 @@ public class AssignmentUpdateServlet extends HttpServlet {
 //  }
 
 
+
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -85,6 +86,9 @@ public class AssignmentUpdateServlet extends HttpServlet {
     out.println("<title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
+
+    request.getRequestDispatcher("/header").include(request, response);
+
     out.println("<h1>과제</h1>");
 
     try {
@@ -105,7 +109,9 @@ public class AssignmentUpdateServlet extends HttpServlet {
     assignment.setDeadline(Date.valueOf(request.getParameter("deadline")));
 
       assignmentDao.update(assignment);
-      out.println("<p>과제을 변경했습니다.</p>");
+//      out.println("<p>과제를 변경했습니다.</p>");
+      response.sendRedirect("list");
+      return;
 
     } catch (Exception e) {
       out.println("<p>과제 변경 오류!</p>");
@@ -113,6 +119,8 @@ public class AssignmentUpdateServlet extends HttpServlet {
       e.printStackTrace(out);
       out.println("</pre>");
     }
+
+    request.getRequestDispatcher("/footer").include(request, response);
 
     out.println("</body>");
     out.println("</html>");

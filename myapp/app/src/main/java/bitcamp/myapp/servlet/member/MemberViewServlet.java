@@ -78,6 +78,9 @@ public class MemberViewServlet extends HttpServlet {
     out.println("<title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
+
+    request.getRequestDispatcher("/header").include(request, response);
+
     out.println("<h1>회원</h1>");
 
 
@@ -89,13 +92,17 @@ public class MemberViewServlet extends HttpServlet {
     Member member = memberDao.findBy(no);
     if (member == null) {
       out.println("<p>회원 번호가 유효하지 않습니다.</p>");
+
+      request.getRequestDispatcher("/footer").include(request, response);
+
+
       out.println("</body>");
       out.println("</html>");
       return;
     }
 
 
-      out.println("<form action='/member/update'>");
+      out.println("<form action='/member/update' method='post'>");
       out.println("<div>");
       out.printf("번호: <input readonly name='no' type='text' value='%s'>\n", member.getNo());
       out.println("</div>");
@@ -122,6 +129,8 @@ public class MemberViewServlet extends HttpServlet {
       e.printStackTrace(out);
       out.println("</pre>");
     }
+
+    request.getRequestDispatcher("/footer").include(request, response);
 
     out.println("</body>");
     out.println("</html>");

@@ -83,6 +83,9 @@ String title = category == 1 ? "게시글" : "가입인사";
     out.println("<title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
+
+    servletRequest.getRequestDispatcher("/header").include(servletRequest, servletResponse);
+
     out.printf("<h1>%s</h1>\n", title);
 
     out.printf("<a href='/board/add?category=%d'>새 글</a>", category);
@@ -117,6 +120,8 @@ String title = category == 1 ? "게시글" : "가입인사";
       e.printStackTrace(out);
       out.println("</pre>");
     }
+
+    servletRequest.getRequestDispatcher("/footer").include(servletRequest, servletResponse);
 
     out.println("</body>");
     out.println("</html>");

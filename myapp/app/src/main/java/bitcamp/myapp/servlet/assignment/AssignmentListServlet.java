@@ -1,5 +1,6 @@
 package bitcamp.myapp.servlet.assignment;
 
+
 import bitcamp.myapp.dao.AssignmentDao;
 import bitcamp.myapp.dao.mysql.AssignmentDaoImpl;
 import bitcamp.myapp.vo.Assignment;
@@ -80,9 +81,12 @@ public class AssignmentListServlet extends HttpServlet {
     out.println("<title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
+
+    request.getRequestDispatcher("/header").include(request, response);
+
     out.println("<h1>과제</h1>");
 
-    out.println("<a href='/assignment/form.html'>새 과제</a>");
+    out.println("<a href='/assignment/add'>새 과제</a>");
 
     try {
 //      con = connectionPool.getConnection();
@@ -111,6 +115,8 @@ public class AssignmentListServlet extends HttpServlet {
       e.printStackTrace(out);
       out.println("</pre>");
     }
+
+    request.getRequestDispatcher("/footer").include(request, response);
 
     out.println("</body>");
     out.println("</html>");

@@ -84,6 +84,9 @@ public class AssignmentViewServlet extends HttpServlet {
     out.println("<title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
+
+    request.getRequestDispatcher("/header").include(request, response);
+
     out.println("<h1>과제</h1>");
 
 
@@ -101,7 +104,7 @@ public class AssignmentViewServlet extends HttpServlet {
     }
 
 
-      out.println("<form action='/assignment/update'>");
+      out.println("<form action='/assignment/update' method='post'>");
       out.println("<div>");
       out.printf("번호: <input readonly name='no' type='text' value='%s'>\n", assignment.getNo());
       out.println("</div>");
@@ -126,6 +129,8 @@ public class AssignmentViewServlet extends HttpServlet {
       e.printStackTrace(out);
       out.println("</pre>");
     }
+
+    request.getRequestDispatcher("/footer").include(request, response);
 
     out.println("</body>");
     out.println("</html>");
