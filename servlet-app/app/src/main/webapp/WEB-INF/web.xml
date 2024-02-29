@@ -237,5 +237,14 @@
 <!--    <session-timeout>30</session-timeout>    &lt;!&ndash; 30 minutes &ndash;&gt;-->
 <!--  </session-config>-->
 
+<servlet>
+  <servlet-name>ex12.Servlet01</servlet-name>
+  <servlet-class>com.eomcs.web.ex12.Servlet01</servlet-class>
+  <!-- servlet-class에는 fullit qualified name?을 적음(패키지를 포함한 클래스이름) -->
+</servlet>
+  <servlet-mapping>
+    <servlet-name>ex12.Servlet01</servlet-name>
+    <url-pattern>/ex12/s01</url-pattern>
+  </servlet-mapping>
 
 </web-app>

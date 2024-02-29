@@ -42,12 +42,12 @@ alter table board_files
 --insert into boards(title,content,writer, category) values('제목5', '내용5', '윤봉길', 2);
 
 -- 셀렉트 문 : 값을 확인할 때 사용
-select * from boards;
--- 보드의 모든 값을 확인
-
-select *
-from boards
-where board_no = 3;
+--select * from boards;
+---- 보드의 모든 값을 확인
+--
+--select *
+--from boards
+--where board_no = 3;
 
 --insert into boards(
 --  board_no,
@@ -69,15 +69,15 @@ where board_no = 3;
 -- dbms서버에게 보내고 dbms가 응답(쿼리언어)
 -- mysql프로그램은 dbms에게 명령어를 전달하고 서버가 보낸 것을 그대로 출력할 뿐임
 
-update boards set
-  title='okok',
-  content='nono',
-  writer='hoho'
-where board_no = 3;
+--update boards set
+--  title='okok',
+--  content='nono',
+--  writer='hoho'
+--where board_no = 3;
+--
+--delete from boards where board_no=3;
 
-delete from boards where board_no=3;
-
-drop table assignment;
+--drop table assignment;
 
 create table assignments(
 assignment_no int not null,
@@ -105,7 +105,7 @@ alter table assignments
 --insert into assignments(assignment_no,title,content,deadline)
 --  values(5, '제목5', '내용5', '2024-05-22');
 
-drop table members;
+--drop table members;
 
 create table members(
   member_no int not null,
@@ -113,12 +113,14 @@ create table members(
   email varchar(255) not null,
   name varchar(255) not null,
   password varchar(100) not null,
+  photo varchar(255) null,
   created_date datetime null default now()
   );
 
 alter table members
   add constraint primary key (member_no),
-  modify column member_no int not null auto_increment;
+  modify column member_no int not null auto_increment,
+  add constraint members_uk unique key (email);
 
 --insert into members(member_no,email,name,password)
 --  values(1,'aa@bit.com','홍일동',sha2('aa',256));
@@ -130,13 +132,13 @@ alter table members
 --  values(4,'dd@bit.com','홍사동',sha2('dd',256));
 --insert into members(member_no,email,name,password)
 --  values(5,'ee@bit.com','홍오동',sha2('ee',256));
-
-desc boards;
-
-alter table boards
-  add column category int not null;
-
-update boards set category=1;
+--
+--desc boards;
+--
+--alter table boards
+--  add column category int not null;
+--
+--update boards set category=1;
 
 alter table boards
   add constraint boards_fk foreign key (writer) references members(member_no);
