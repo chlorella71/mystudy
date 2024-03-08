@@ -33,11 +33,11 @@
 
              <c:if test="${category == 1}">
                <div>
-                 첨부파일: <input multiple name='files' type='file'>
+                 첨부파일: <input multiple name='attachedFiles' type='file'>
                  <ul>
 
                <c:forEach items="${files}" var="file">
-                 <li><a href='/upload/board/${file.filepath}'>${file.filepath}</a>
+                 <li><a href='/upload/board/${file.filePath}'>${file.filePath}</a>
                  [<a href='/app/board/file/delete?category=${category}&no=${file.no}'>삭제</a>]</li>
 </c:forEach>
                  </ul>

@@ -15,7 +15,7 @@
 
        <h1>${boardName}</h1>
    
-       <a href='/app/board/add?category=${category}'>새 글</a>
+       <a href='/app/board/form?category=${category}'>새 글</a>
 
          <table border='1'>
          <thead>

@@ -1,17 +1,19 @@
 package bitcamp.myapp.controller;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@Controller
+public class HomeController {
 
-public class HomeController implements PageController {
+  public HomeController() {
+    System.out.println("HomeController() 호출됨");
 
+  }
 
-    public String execute(HttpServletRequest request, HttpServletResponse response)
+  @RequestMapping("/home")
+    public String home()
       throws Exception {
 
     return "/home.jsp";

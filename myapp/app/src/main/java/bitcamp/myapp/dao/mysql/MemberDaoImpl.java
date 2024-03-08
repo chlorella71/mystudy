@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MemberDaoImpl implements MemberDao {
 
 DBConnectionPool connectionPool;
@@ -19,6 +21,8 @@ DBConnectionPool connectionPool;
 //    this.con = con;
 //  }
   public MemberDaoImpl(DBConnectionPool connectionPool) {
+    System.out.println("MemberDaoImpl() 호출됨");
+
     this.connectionPool = connectionPool;
   }
 

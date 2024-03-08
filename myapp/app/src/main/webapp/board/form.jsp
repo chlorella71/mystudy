@@ -17,16 +17,15 @@
     <form action='/app/board/add?category=${category}' method='post' enctype='multipart/form-data'>
     <input name='category' type='hidden' value='${category}'>
     <div>
-    제목: <input type='text' name='title'>
+    제목: <input name='title' type='text'>
     </div>
     <div>
     내용: <textarea name='content'></textarea>
     </div>
     <div>
-<%
 
     <c:if test="${category == 1}">
-      첨부파일: <input name='files' type='file' multiple>
+      첨부파일: <input multiple name='attachedFiles' type='file'>
       </div>
   </c:if>
     <div>
