@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context
-        https://www.springframework.org/schema/context/spring-context.xsd">
-     
-    <!-- 
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!-- 
       클래스에 붙은 특정 애노테이션을 처리할 BeanPostProcessor 등록하기
          @Autowired => AutowiredAnnotationBeanPostProcessor
          @Qualifier => ?
@@ -34,35 +32,36 @@
          이 태그는 context 네임스페이스 들어 있다. 
          이 태그를 사용하려면 먼저 context 네임스페이스를 선언해야 한다.
     -->
-    <!--  
-    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+  <!--  
+    <bean
+  class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
     -->
-    
-    <context:annotation-config/>
-    
-    <!-- 같은 타입(Engine)의 의존 객체가 여러 개 있을 때? 
+
+  <context:annotation-config />
+
+  <!-- 같은 타입(Engine)의 의존 객체가 여러 개 있을 때? 
        => 어떤 것을 꼽아야 할 지 알 수 없기 때문에 Car 객체를 생성하지 못한다. 오류 발생!
        => 해결책! 
           @Qualifier("객체이름")을 사용하여 어떤 객체를 꼽을 것인지 지정하라!
     -->
-    <bean id="c1" class="com.eomcs.spring.ioc.ex08.g.Car">
-        <property name="model" value="티코"/>
-        <property name="maker" value="비트자동차"/>
-        <property name="cc" value="890"/>
-        <property name="auto" value="true"/>
-    </bean>
-    
-    <bean id="e1" class="com.eomcs.spring.ioc.ex08.g.Engine">
-        <property name="maker" value="비트자동차"/>
-        <property name="valve" value="16"/>
-        <property name="cylinder" value="4"/>
-    </bean>
+  <bean id="c1" class="com.eomcs.spring.ioc.ex08.g.Car">
+    <property name="model" value="티코" />
+    <property name="maker" value="비트자동차" />
+    <property name="cc" value="890" />
+    <property name="auto" value="true" />
+  </bean>
 
-    <bean id="e2" class="com.eomcs.spring.ioc.ex08.g.Engine">
-        <property name="maker" value="캠프자동차"/>
-        <property name="valve" value="16"/>
-        <property name="cylinder" value="8"/>
-    </bean>
+  <bean id="e1" class="com.eomcs.spring.ioc.ex08.g.Engine">
+    <property name="maker" value="비트자동차" />
+    <property name="valve" value="16" />
+    <property name="cylinder" value="4" />
+  </bean>
+
+  <bean id="e2" class="com.eomcs.spring.ioc.ex08.g.Engine">
+    <property name="maker" value="캠프자동차" />
+    <property name="valve" value="16" />
+    <property name="cylinder" value="8" />
+  </bean>
 
 </beans>
 

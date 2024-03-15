@@ -19,6 +19,8 @@ public class Exam01 {
     //
     ApplicationContext iocContainer = new AnnotationConfigApplicationContext(
         "com.eomcs.spring.ioc.ex10.b");
+    //    ApplicationContext iocContainer = new AnnotationConfigApplicationContext(
+    //        AppConfig.class);
 
     SpringUtils.printBeanList(iocContainer);
   }

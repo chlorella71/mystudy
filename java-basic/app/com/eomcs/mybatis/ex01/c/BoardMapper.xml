@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- SQL Mapper 파일:
 => SQL 문을 보관하는 파일이다.
@@ -27,12 +25,12 @@
           클래스명은 반드시 패키지 이름을 포함(fully-qualified name=FQName=QName)해야 한다.                 
    -->
   <select id="selectBoard" resultType="com.eomcs.mybatis.ex01.c.Board">
-    select 
-      board_id,
-      title,
-      contents,
-      created_date,
-      view_count
+    select
+    board_id,
+    title,
+    contents,
+    created_date,
+    view_count
     from x_board
     order by board_id desc
   </select>
