@@ -130,6 +130,7 @@ throw e;
     model.addAttribute("boardName", category == 1 ? "게시글" : "가입인사");
   model.addAttribute("list", boardDao.findAll(category));
   model.addAttribute("category", category);
+
   }
 @GetMapping("/board/view")
   public void view(

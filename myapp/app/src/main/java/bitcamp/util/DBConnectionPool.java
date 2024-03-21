@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
+@Component
 public class DBConnectionPool implements ConnectionPool{
 
   private final Log log = LogFactory.getLog(this.getClass());
