@@ -1,18 +1,21 @@
 package bitcamp.myapp.controller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Component
 public class AboutController {
 
+  private final Log log = LogFactory.getLog(this.getClass());
+
   public AboutController() {
-    System.out.println("AssignmentController() 호출됨");
+    log.debug("AboutController() 호출됨");
   }
 
-  @RequestMapping("/about")
-    public String about()
-      throws Exception {
+  @GetMapping("/about")
+    public void about() {
 
-    return "/about.jsp";
   }
 }

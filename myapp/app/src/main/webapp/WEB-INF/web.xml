@@ -13,45 +13,45 @@
   </description>
   <display-name>과제 관리 시스템</display-name>
 
-  <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:config/application-context.xml</param-value>
-  </context-param>
+<!--  <context-param>-->
+<!--    <param-name>contextConfigLocation</param-name>-->
+<!--    <param-value>classpath:config/application-context.xml</param-value>-->
+<!--  </context-param>-->
 
-<filter>
-  <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-  <filter-name>CharacterEncodingFilter</filter-name>
-  <init-param>
-    <param-name>encoding</param-name>
-    <param-value>UTF-8</param-value>
-  </init-param>
-</filter>
-<filter-mapping>
-  <filter-name>CharacterEncodingFilter</filter-name>
-  <url-pattern>/*</url-pattern>
-</filter-mapping>
+<!--<filter>-->
+<!--  <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>-->
+<!--  <filter-name>CharacterEncodingFilter</filter-name>-->
+<!--  <init-param>-->
+<!--    <param-name>encoding</param-name>-->
+<!--    <param-value>UTF-8</param-value>-->
+<!--  </init-param>-->
+<!--</filter>-->
+<!--<filter-mapping>-->
+<!--  <filter-name>CharacterEncodingFilter</filter-name>-->
+<!--  <url-pattern>/*</url-pattern>-->
+<!--</filter-mapping>-->
 
-  <listener>
-    <listener-class>org.springframework.web.context</listener-class>
-  </listener>
+<!--  <listener>-->
+<!--    <listener-class>org.springframework.web.context</listener-class>-->
+<!--  </listener>-->
 
-  <servlet>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value></param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-    <multipart-config>
-      <max-file-size>10000000</max-file-size>
-    </multipart-config>
-    <servlet-class>org.springframework.web.servlet</servlet-class>
-    <servlet-name>DispatcherServlet</servlet-name>
-  </servlet>
+<!--  <servlet>-->
+<!--    <init-param>-->
+<!--      <param-name>contextConfigLocation</param-name>-->
+<!--      <param-value></param-value>-->
+<!--    </init-param>-->
+<!--    <load-on-startup>1</load-on-startup>-->
+<!--    <multipart-config>-->
+<!--      <max-file-size>10000000</max-file-size>-->
+<!--    </multipart-config>-->
+<!--    <servlet-class>org.springframework.web.servlet</servlet-class>-->
+<!--    <servlet-name>DispatcherServlet</servlet-name>-->
+<!--  </servlet>-->
 
-  <servlet-mapping>
-    <servlet-name>DispatcherServlet</servlet-name>
-    <url-pattern>/app/*</url-pattern>
-  </servlet-mapping>
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>DispatcherServlet</servlet-name>-->
+<!--    <url-pattern>/app/*</url-pattern>-->
+<!--  </servlet-mapping>-->
 
 
 

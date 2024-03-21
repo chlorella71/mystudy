@@ -9,21 +9,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberDaoImpl implements MemberDao {
 
+  private final Log log = LogFactory.getLog(this.getClass());
+
 DBConnectionPool connectionPool;
+SqlSessionFactory sqlSessionFactory;
+
 //  Connection con;
 
 //  public MemberDaoImpl(Connection con) {
 //    this.con = con;
 //  }
   public MemberDaoImpl(DBConnectionPool connectionPool) {
-    System.out.println("MemberDaoImpl() 호출됨");
+    log.debug("MemberDaoImpl() 호출됨");
 
     this.connectionPool = connectionPool;
+    this.sqlSessionFactory = sqlSessionFactory;
   }
 
   @Override
@@ -69,32 +78,8 @@ DBConnectionPool connectionPool;
 
   @Override
   public List<Member> findAll() {
-    try (Connection con = connectionPool.getConnection();
-        PreparedStatement pstmt = con.prepareStatement(
-//        "select * from members order by member_no desc");
-                "select member_no, email, name, photo, created_date from members");
-        ResultSet rs = pstmt.executeQuery()) {
-
-      ArrayList<Member> list = new ArrayList<>();
-
-      while (rs.next()) {
-        Member member = new Member();
-        member.setNo(rs.getInt("member_no"));
-        member.setEmail(rs.getString("email"));
-        member.setName(rs.getString("name"));
-        member.setPhoto(rs.getString("photo"));
-        member.setCreatedDate(rs.getDate("created_date"));
-
-        list.add(member);
-      }
-      return list;
-    } catch (Exception e) {
-      throw new DaoException("데이처 가져오기 오류", e);
-//    } finally {
-//      try {
-//        con.close();
-//      } catch (Exception e) {
-//      }
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
+      return sqlSession.selectOne("Mapper1.sql1");
     }
   }
 

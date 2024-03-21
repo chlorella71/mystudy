@@ -7,55 +7,61 @@ import java.util.Map;
 import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
-import org.springframework.stereotype.Component;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequestMapping("/member")
 public class MemberController {
 
+  private final Log log = LogFactory.getLog(this.getClass());
 
   private MemberDao memberDao;
   private String uploadDir;
 
   public MemberController(MemberDao memberDao, ServletContext sc) {
-    System.out.println("MemberController() 호출됨");
+    log.debug("MemberController() 호출됨");
 
     this.memberDao = memberDao;
     this.uploadDir = sc.getRealPath("/upload");
   }
 
-  @RequestMapping("/member/form")
-  public String form() throws Exception {
-      return "/member/form.jsp";
+  @GetMapping("form")
+  public void form() throws Exception {
     }
 
-  @RequestMapping("/member/add")
+    @PostMapping("add")
   public String add(
       Member member,
-      @RequestParam("file") Part file) throws Exception {
+      MultipartFile file) throws Exception {
 
       if (file.getSize() > 0) {
         // 파일을 선택해서 업로드 했다면,
         String filename = UUID.randomUUID().toString();
         member.setPhoto(filename);
-        file.write(this.uploadDir + "/" + filename);
+        file.transferTo(new File(this.uploadDir + "/" + filename));
       }
 
     memberDao.add(member);
     return "redirect:list";
     }
 
-  @RequestMapping("/member/list")
-  public String list(
-      Map<String,Object> map
+    @GetMapping("list")
+  public void list(
+      Model model
   ) throws Exception {
-    map.put("list", memberDao.findAll());
-    return "/member/list.jsp";
+    model.addAttribute("list", memberDao.findAll());
   }
 
-  @RequestMapping("/member/view")
-  public String view(
-      @RequestParam("no") int no,
+  @GetMapping("view")
+  public void view(
+      int no,
       Map<String,Object> map) throws Exception {
 
     Member member = memberDao.findBy(no);
@@ -63,13 +69,12 @@ public class MemberController {
       throw new Exception("회원 번호가 유효하지 않습니다.");
     }
     map.put("member", member);
-    return "/member/view.jsp";
   }
 
-  @RequestMapping("/member/update")
+  @PostMapping("update")
   public String update(
       Member member,
-      @RequestParam("file") Part file) throws Exception {
+      MultipartFile file) throws Exception {
 
     Member old = memberDao.findBy(member.getNo());
     if (old == null) {
@@ -81,7 +86,7 @@ public class MemberController {
       // 파일을 선택해서 업로드 했다면,
       String filename = UUID.randomUUID().toString();
       member.setPhoto(filename);
-      file.write(this.uploadDir + "/" + filename);
+      file.transferTo(new File(this.uploadDir + "/" + filename));
       new File(this.uploadDir + "/" + old.getPhoto()).delete();
     } else {
       member.setPhoto(old.getPhoto());
@@ -92,9 +97,9 @@ public class MemberController {
     return "redirect:list";
   }
 
-  @RequestMapping("/member/delete")
+  @GetMapping("delete")
   public String delete(
-      @RequestParam("no") int no) throws Exception {
+      int no) throws Exception {
 
     Member member = memberDao.findBy(no);
     if (member == null) {
