@@ -133,3 +133,4 @@ $ git clone [깃허브 저장소 URL]
 ## DBMS 설치 - MariaDB
 - https://mariadb.org/ 사이트에서 다운로드 및 설치.
 - 환경 변수 PATH에 $MARIADB_HOME/bin 폴더 추가.
+

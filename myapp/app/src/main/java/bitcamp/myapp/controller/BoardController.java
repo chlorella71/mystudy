@@ -5,7 +5,7 @@ import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.vo.AttachedFile;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Member;
-import bitcamp.util.TransactionManager;
+//import bitcamp.util.TransactionManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,21 +31,21 @@ public class BoardController {
 
   private final Log log = LogFactory.getLog(this.getClass());
 
-  private TransactionManager txManager;
+//  private TransactionManager txManager;
   //  DBConnectionPool connectionPool;
   private BoardDao boardDao;
   private AttachedFileDao attachedFileDao;
   private String uploadDir;
 
   public BoardController(
-      TransactionManager txManager,
+//      TransactionManager txManager,
       BoardDao boardDao,
       AttachedFileDao attachedFileDao,
       ServletContext sc) {
     log.debug("BoardController() 호출됨");
 
 
-    this.txManager = txManager;
+//    this.txManager = txManager;
     this.boardDao = boardDao;
     this.attachedFileDao = attachedFileDao;
     this.uploadDir = sc.getRealPath("/upload/board");
@@ -59,6 +60,8 @@ public class BoardController {
     model.addAttribute("category", category);
     }
 
+//    @Transactional(rollbackFor = Exception.class)
+  @Transactional
 @PostMapping("add")
   public String add(
       Board board,
@@ -67,8 +70,6 @@ public class BoardController {
       Model model) throws Exception {
 
     model.addAttribute("category", board.getCategory());
-
-try {
 
     Member loginUser = (Member) session.getAttribute("loginUser");
     if (loginUser == null) {
@@ -88,7 +89,7 @@ try {
       }
     }
 
-      txManager.startTransaction();
+//      txManager.startTransaction();
 
       boardDao.add(board);
 
@@ -100,29 +101,10 @@ try {
       attachedFileDao.addAll(files);
       }
 
-      txManager.commit();
+//      txManager.commit();
   return "redirect:list";
-
-    } catch (Exception e) {
-      try {
-        txManager.rollback();
-//        con.rollback();
-      } catch (Exception e2) {
-      }
-//      out.println("<p>등록 오류!</p>");
-//      out.println("<pre>");
-//      e.printStackTrace(out);
-//      out.println("</pre>");
-//      request.setAttribute("message", String.format("%s 등록 오류!", boardName));
-throw e;
-//      request.getRequestDispatcher("/error.jsp").forward(request, response);
-    }
-//
-//    request.getRequestDispatcher("/footer").include(request, response);
-//
-//    out.println("</body>");
-//    out.println("</html>");
   }
+
 @GetMapping("list")
   public void list(
       int category,
@@ -132,7 +114,7 @@ throw e;
   model.addAttribute("category", category);
 
   }
-@GetMapping("/board/view")
+@GetMapping("view")
   public void view(
       int category,
       int no,
@@ -144,14 +126,11 @@ throw e;
     }
 
   model.addAttribute("boardName", category == 1 ? "게시글" : "가입인사");
-    model.addAttribute("category", category);
+  model.addAttribute("category", category);
   model.addAttribute("board", board);
-    if (category ==1) {
-      model.addAttribute("files", attachedFileDao.findAllByBoardNo(no));
-    }
-
   }
 
+  @Transactional
   @PostMapping("update")
   public String update(
       Board board,
@@ -161,7 +140,6 @@ throw e;
 
     model.addAttribute("category", board.getCategory());
 
-    try {
       Member loginUser = (Member) session.getAttribute("loginUser");
       if (loginUser == null) {
         throw new Exception("로그인하시기 바랍니다!");
@@ -187,7 +165,7 @@ throw e;
         }
       }
 
-      txManager.startTransaction();
+//      txManager.startTransaction();
       boardDao.update(board);
 
       if (files.size() > 0) {
@@ -198,27 +176,19 @@ throw e;
         attachedFileDao.addAll(files);
       }
 
-      txManager.commit();
+//      txManager.commit();
 
-      return "redirect:list?";
+      return "redirect:list";
 
-    } catch (Exception e) {
-      try {
-        txManager.rollback();
-
-      } catch (Exception e2) {
-      }
-      throw e;
-    }
   }
 
+  @Transactional
   @GetMapping("delete")
   public String delete(
       int category,
       int no,
       HttpSession session) throws Exception {
 
-    try {
       Member loginUser = (Member) session.getAttribute("loginUser");
       if (loginUser == null) {
         throw new Exception("로그인하시기 바랍니다!");
@@ -232,10 +202,11 @@ throw e;
       }
       List<AttachedFile> files = attachedFileDao.findAllByBoardNo(no);
 
-      txManager.startTransaction();
+//      txManager.startTransaction();
       attachedFileDao.deleteAll(no);
+//      txManager.commit();
+
       boardDao.delete(no);
-      txManager.commit();
 
       for (AttachedFile file : files) {
         new File(this.uploadDir + "/" + file.getFilePath()).delete();
@@ -250,15 +221,8 @@ throw e;
 //      out.printf("location.href = '/board/list?category=%d';\n", category);
 //      out.println("</script>");
 
-    } catch (Exception e) {
-      try {
-        txManager.rollback();
-//        con.rollback();
-      } catch (Exception e2) {
-      }
-      throw e;
-    }
   }
+
 
   @GetMapping("file/delete")
   public String fileDelete(

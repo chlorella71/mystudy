@@ -27,7 +27,6 @@ public class AuthController {
 
   public AuthController(MemberDao memberDao) {
     log.debug("AuthController() 호출됨");
-
     this.memberDao = memberDao;
   }
 
@@ -38,7 +37,7 @@ public class AuthController {
 
 
   @PostMapping("login")
-  public void login(
+  public String login(
       String email,
       String password,
       String saveEmail,
@@ -59,6 +58,7 @@ public class AuthController {
     if (member != null) {
     session.setAttribute("loginUser", member);
     }
+    return "auth/login";
   }
 
   @GetMapping("logout")

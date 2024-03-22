@@ -21,7 +21,7 @@
             <form action='/app/auth/login' method='post'>
             <div>
                이메일: <input type='text' name='email'
-               value ='<%=request.getAttribute("email") != null ? request.getAttribute("email") : ""%>'>
+               value ='${email}'>
             </div>
             <div>
                암호: <input typ='password' name='password'>

@@ -4,6 +4,8 @@
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <%@ page import="bitcamp.myapp.vo.Member"%>
 
@@ -16,7 +18,7 @@
     </head>
     <body>
 
-<jsp:include page="/header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
 
 
 
@@ -34,26 +36,26 @@
           <input name='file' type='file'>
           </div>
           <div>
-          번호: <input readonly name='no' type='text' value='${requestScope.member.no}'>
+          번호: <input readonly name='no' type='text' value='${member.no}'>
           </div>
           <div>
-          이메일: <input name='email' type='text' value='${requestScope.member.email}'>
+          이메일: <input name='email' type='text' value='${member.email}'>
           </div>
           <div>
-          이름: <input name='name' type='text' value='${requestScope.member.name}'>
+          이름: <input name='name' type='text' value='${member.name}'>
           </div>
           <div>
           암호: <input name='password' type='password'>
           </div>
           <div>
-          가입일: <input readonly type='text' value='${requestScope.member.createdDate}'>
+          가입일: <input readonly type='text' value='<fmt:formatDate value="${member.createdDate}" pattern="yyyy-MM-dd"/>'>
           <div>
           <button>변경</button>
-          <a href='/app/member/delete?no=${requestScope.member.no}'>[삭제]</a>
+          <a href='/app/member/delete?no=${member.no}'>[삭제]</a>
           </div>
           </form>
 
-<jsp:include page="/footer.jsp"></jsp:include>
+<jsp:include page="../footer.jsp"></jsp:include>
 
 </body>
 </html>

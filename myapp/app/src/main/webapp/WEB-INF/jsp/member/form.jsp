@@ -9,7 +9,7 @@
     </head>
     <body>
 
-<jsp:include page="/header.jsp"></jsp:include>
+<jsp:include page="../header.jsp"></jsp:include>
 
     <h1>과제 관리 시스템</h1>
 
@@ -20,7 +20,7 @@
     이메일: <input name='email' type='text'>
   </div>
   <div>
-    이름: <input name='name' type='text'></input>
+    이름: <input name='name' type='text'>
   </div>
   <div>
     암호: <input name='password' type='password'>
@@ -34,7 +34,7 @@
 
 </form>
 
-<jsp:include page="/footer.jsp"></jsp:include>
+<jsp:include page="../footer.jsp"></jsp:include>
 
 </body>
 </html>

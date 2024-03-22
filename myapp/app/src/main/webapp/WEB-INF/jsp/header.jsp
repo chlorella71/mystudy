@@ -3,9 +3,7 @@
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <header>
   <img src='https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'>

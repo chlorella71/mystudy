@@ -21,13 +21,11 @@ public class AppConfig {
 
   @Bean
   public MultipartResolver multipartResolver() {
-    StandardServletMultipartResolver mr = new StandardServletMultipartResolver();
-    return mr;
+    return new StandardServletMultipartResolver();
   }
 
   @Bean
   public ViewResolver viewResolver() {
-    InternalResourceViewResolver vr = new InternalResourceViewResolver("/WEB-INF/jsp/", ".jsp");
-    return vr;
+    return new InternalResourceViewResolver("/WEB-INF/jsp/", ".jsp");
   }
 }

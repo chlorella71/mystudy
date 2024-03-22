@@ -4,7 +4,7 @@
 package teamproject;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import teamproject.myapp.App;
 
 class AppTest {
     @Test void appHasAGreeting() {

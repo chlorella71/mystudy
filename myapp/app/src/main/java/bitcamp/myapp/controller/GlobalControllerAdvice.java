@@ -15,15 +15,11 @@ public class GlobalControllerAdvice {
 
   @InitBinder
   public void initBinder(WebDataBinder webDataBinder) {
-    webDataBinder.registerCustomEditor(Date.class, new DatePropertyEditor());
-  }
-
-  class DatePropertyEditor extends PropertyEditorSupport {
-
-    @Override
-    public void setAsText(String text) throws IllegalArgumentException {
-      this.setValue(Date.valueOf(text));
-    }
+    webDataBinder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
+      public void setAsText(String text) throws IllegalArgumentException {
+        this.setValue(Date.valueOf(text));
+      }
+    });
   }
 
   @ExceptionHandler

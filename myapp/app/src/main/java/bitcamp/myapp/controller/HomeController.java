@@ -18,8 +18,6 @@ public class HomeController {
   }
 
   @GetMapping("/home")
-    public void home()
-      throws Exception {
-
+    public void home() {
   }
 }

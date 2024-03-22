@@ -2,9 +2,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-
-    
         <!DOCTYPE html>
         <html lang='en'>
         <head>
@@ -13,7 +10,7 @@
         </head>
         <body>
     
-<jsp:include page="/header.jsp"></jsp:include>
+<jsp:include page="header.jsp"></jsp:include>
     
         <h1>오류!</h1>
 
@@ -27,7 +24,7 @@
         </pre>
         </c:if>
 
-<jsp:include page="/footer.jsp"></jsp:include>    
+<jsp:include page="footer.jsp"></jsp:include>
     
         </body>
         </html>

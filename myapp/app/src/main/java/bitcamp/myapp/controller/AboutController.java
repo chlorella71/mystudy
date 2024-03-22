@@ -3,9 +3,10 @@ package bitcamp.myapp.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Component
+@Controller
 public class AboutController {
 
   private final Log log = LogFactory.getLog(this.getClass());

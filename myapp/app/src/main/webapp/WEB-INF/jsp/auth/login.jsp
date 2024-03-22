@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@ page import="bitcamp.myapp.vo.Member"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-    
         <!DOCTYPE html>
         <html lang='en'>
         <head>
         <meta charset='UTF-8'>
+        <c:if test="${not empty loginUser}">
+          <meta http-equiv="Refresh" content="1;url=/index.html">
+          </c:if>
+          <c:if test="${empty loginUser}">
+          <meta http-equiv="Refresh" content="1;url=/app/auth/login">
+          </c:if>
         <title>비트캠프 데브옵스 5기</title>
         </head>
         <body>
