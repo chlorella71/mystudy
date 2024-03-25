@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="AssignmentDao">
+<mapper namespace="bitcamp.myapp.dao.AssignmentDao">
   <resultMap id="AssignmentMap" type="Assignment">
     <id column="assignment_no" property="no"/>
     <result column="title" property="title"/>
@@ -32,21 +32,23 @@
   assignment_no desc
 </select>
 
-  <select id="fintBy" resultMap="AssignmentMap" parameterType="int">
+  <select id="findBy" resultMap="AssignmentMap" parameterType="int">
     select
     assignment_no,
     title,
+    content,
     deadline
     from
     assignments
-    where assignment_no=#{no}
+    where
+    assignment_no=#{value}
   </select>
 
-<update id="findByEmailAndPassword" parameterType="Assignment">
+<update id="update" parameterType="Assignment">
   update assignments set
   title=#{title},
   content=#{content},
-  deadline=#{deadLine}
+  deadline=#{deadline}
   where
   assignment_no={no}
 </update>

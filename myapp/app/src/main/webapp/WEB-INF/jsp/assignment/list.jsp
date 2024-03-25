@@ -25,7 +25,7 @@
           <c:forEach items="${list}" var="assignment">
             <tr>
              <td>${assignment.no}</td>
-              <td><a href='/app/assignment/view?no=${assignment.no}>'>${assignment.title}</a></td>
+              <td><a href='/app/assignment/view?no=${assignment.no}'>${assignment.title}</a></td>
                <td>${assignment.deadline}</td>
                </tr>
           </c:forEach>

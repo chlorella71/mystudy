@@ -24,7 +24,7 @@
                value ='${email}'>
             </div>
             <div>
-               암호: <input typ='password' name='password'>
+               암호: <input type='password' name='password'>
             </div>
             <button>로그인</button>
         <input type='checkbox' name='saveEmail' checked="on"> 이메일 저장

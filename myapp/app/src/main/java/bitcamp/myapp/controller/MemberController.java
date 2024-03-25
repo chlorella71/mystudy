@@ -1,6 +1,8 @@
 package bitcamp.myapp.controller;
 
 import bitcamp.myapp.dao.MemberDao;
+import bitcamp.myapp.service.MemberService;
+import bitcamp.myapp.service.impl.DefaultMemberService;
 import bitcamp.myapp.vo.Member;
 import java.io.File;
 import java.util.Map;
@@ -20,15 +22,16 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/member")
 public class MemberController {
 
-  private final Log log = LogFactory.getLog(this.getClass());
+  private static final Log log = LogFactory.getLog(MemberController.class);
 
-  private MemberDao memberDao;
+  private final MemberService memberService;
+
   private String uploadDir;
 
-  public MemberController(MemberDao memberDao, ServletContext sc) {
+  public MemberController(MemberService memberService, ServletContext sc) {
     log.debug("MemberController() 호출됨");
 
-    this.memberDao = memberDao;
+    this.memberService = memberService;
     this.uploadDir = sc.getRealPath("/upload");
   }
 
@@ -48,7 +51,7 @@ public class MemberController {
         file.transferTo(new File(this.uploadDir + "/" + filename));
       }
 
-    memberDao.add(member);
+    memberService.add(member);
     return "redirect:list";
     }
 
@@ -56,19 +59,17 @@ public class MemberController {
   public void list(
       Model model
   ) throws Exception {
-    model.addAttribute("list", memberDao.findAll());
+    model.addAttribute("list", memberService.list());
   }
 
   @GetMapping("view")
-  public void view(
-      int no,
-      Map<String,Object> map) throws Exception {
+  public void view(int no, Model model) throws Exception {
 
-    Member member = memberDao.findBy(no);
+    Member member = memberService.get(no);
     if (member == null) {
       throw new Exception("회원 번호가 유효하지 않습니다.");
     }
-    map.put("member", member);
+    model.addAttribute("member", member);
   }
 
   @PostMapping("update")
@@ -76,7 +77,7 @@ public class MemberController {
       Member member,
       MultipartFile file) throws Exception {
 
-    Member old = memberDao.findBy(member.getNo());
+    Member old = memberService.get(member.getNo());
     if (old == null) {
       throw new Exception("회원 번호가 유효하지 않습니다.");
     }
@@ -92,7 +93,7 @@ public class MemberController {
       member.setPhoto(old.getPhoto());
     }
 
-    memberDao.update(member);
+    memberService.update(member);
 
     return "redirect:list";
   }
@@ -101,12 +102,12 @@ public class MemberController {
   public String delete(
       int no) throws Exception {
 
-    Member member = memberDao.findBy(no);
+    Member member = memberService.get(no);
     if (member == null) {
       throw new Exception("<p>회원 번호가 유효하지 않습니다.</p>");
     }
 
-    memberDao.delete(no);
+    memberService.delete(no);
     String filename = member.getPhoto();
     if (filename != null) {
       new File(this.uploadDir + "/" + filename).delete();

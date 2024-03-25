@@ -3,14 +3,53 @@
  */
 package teamproject.myapp;
 
-import teamproject.myapp.menu.MainMenu;
+import teamproject.menu.MenuGroup;
+import teamproject.menu.MenuItem;
+import teamproject.myapp.handler.HelpHandler;
+import teamproject.myapp.handler.board.BoardAddHandler;
+import teamproject.myapp.handler.board.BoardDeleteHandler;
+import teamproject.myapp.handler.board.BoardListHandler;
+import teamproject.myapp.handler.board.BoardModifyHandler;
+import teamproject.myapp.handler.board.BoardViewHandler;
+import teamproject.myapp.handler.member.MemberAddHandler;
+import teamproject.myapp.handler.member.MemberDeleteHandler;
+import teamproject.myapp.handler.member.MemberListHandler;
+import teamproject.myapp.handler.member.MemberModifyHandler;
+import teamproject.myapp.handler.member.MemberRepository;
+import teamproject.myapp.handler.member.MemberViewHandler;
+import teamproject.util.ObjectRepository;
 import teamproject.util.Prompt;
 
 public class App {
 
     public static void main(String[] args) {
         Prompt prompt = new Prompt(System.in);
-        new MainMenu(prompt).execute();
+
+        ObjectRepository boardRepository = new ObjectRepository();
+        MemberRepository memberRepository = new MemberRepository();
+
+        MenuGroup mainMenu = new MenuGroup("메인");
+
+        MenuGroup boardMenu = new MenuGroup("게시글");
+        boardMenu.add(new MenuItem("등록", new BoardAddHandler(boardRepository, prompt)));
+        boardMenu.add(new MenuItem("조회", new BoardViewHandler(boardRepository, prompt)));
+        boardMenu.add(new MenuItem("변경", new BoardModifyHandler(boardRepository, prompt)));
+        boardMenu.add(new MenuItem("삭제", new BoardDeleteHandler(boardRepository, prompt)));
+        boardMenu.add(new MenuItem("목록", new BoardListHandler(boardRepository)));
+        mainMenu.add(boardMenu);
+
+        MenuGroup memberMenu = new MenuGroup("회원");
+        memberMenu.add(new MenuItem("등록", new MemberAddHandler(memberRepository, prompt)));
+        memberMenu.add(new MenuItem("조회", new MemberViewHandler(memberRepository, prompt)));
+        memberMenu.add(new MenuItem("변경", new MemberModifyHandler(memberRepository, prompt)));
+        memberMenu.add(new MenuItem("삭제", new MemberDeleteHandler(memberRepository, prompt)));
+        memberMenu.add(new MenuItem("목록", new MemberListHandler(memberRepository)));
+        mainMenu.add(memberMenu);
+
+        mainMenu.add(new MenuItem("도움말", new HelpHandler()));
+
+        mainMenu.execute(prompt);
+
         prompt.close();
     }
 }

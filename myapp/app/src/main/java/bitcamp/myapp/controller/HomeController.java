@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-  private final Log log = LogFactory.getLog(this.getClass());
+  private static final Log log = LogFactory.getLog(HomeController.class);
 
   public HomeController() {
     log.debug("HomeController() 호출됨");

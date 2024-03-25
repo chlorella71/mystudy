@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="AttachedFileDao">
+<mapper namespace="bitcamp.myapp.dao.AttachedFileDao">
 
   <resultMap id="AttachedFileMap" type="AttachedFile">
     <id column="file_no" property="no"/>
@@ -13,28 +13,28 @@
 
   <insert id="add" parameterType="AttachedFile">
     insert into board_files(file_path,board_no)
-    values(#{file_path},#{board_no})
+    values(#{filePath},#{boardNo})
   </insert>
 
   <insert id="addAll" parameterType="list">
     insert into board_files(file_path,board_no)
-    values(#{file_path},#{board_no})
+    values
     <foreach collection="list" item="item" separator=",">
       (#{item.filePath,#{item.boardNo})
     </foreach>
   </insert>
 
-  <delete id="delete" parameterType="AttachedFile">
+  <delete id="delete" parameterType="int">
     delete from board_files
-    where file_no=#{no}
+    where file_no=#{value}
   </delete>
 
-  <delete id="deleteAll" parameterType="AttachedFile">
+  <delete id="deleteAll" parameterType="int">
     delete from board_files
-    where board_no=#{boardNo}
+    where board_no=#{value}
   </delete>
 
-  <select id="findAllByBoardNo" resultType="AttachedFile" parameterType="int">
+  <select id="findAllByBoardNo" resultMap="AttachedFileMap" parameterType="int">
     select
       file_no,
       file_path,
@@ -42,12 +42,12 @@
     from
       board_files
     where
-      board_no=#{boardNo}
+      board_no=#{value}
     order by
       file_no asc
   </select>
 
-  <select id="findByNo" resultType="AttachedFile" parameterType="int">
+  <select id="findByNo" resultMap="AttachedFileMap" parameterType="int">
     select
       file_no,
       file_path,
@@ -55,6 +55,6 @@
     from
       board_files
     where
-      file_no=#{no}
+      file_no=#{value}
   </select>
 </mapper>
