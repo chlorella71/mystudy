@@ -4,13 +4,14 @@ import teamproject.menu.Menu;
 import teamproject.menu.MenuHandler;
 import teamproject.myapp.vo.Member;
 import teamproject.util.AnsiEscape;
+import teamproject.util.ObjectRepository;
 
 public class MemberListHandler implements MenuHandler {
 
-  MemberRepository memberRepository;
+  ObjectRepository<Member> objectRepository;
 
-  public MemberListHandler(MemberRepository memberRepository) {
-    this.memberRepository = memberRepository;
+  public MemberListHandler(ObjectRepository<Member> objectRepository) {
+    this.objectRepository = objectRepository;
   }
 
   @Override
@@ -19,8 +20,8 @@ public class MemberListHandler implements MenuHandler {
 
     System.out.printf("%-10s\t%30s\t%s\n", "이름", "이메일", "가입일");
 
-    for (int i = 0; i < this.memberRepository.length; i++) {
-      Member member = this.memberRepository.members[i];
+    for (Object object : this.objectRepository.toArray()) {
+      Member member = (Member) object;
       System.out.printf("%-10s\t%30s\t%s\n", member.name, member.email, member.createdDate);
     }
   }

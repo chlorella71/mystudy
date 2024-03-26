@@ -37,8 +37,10 @@
                  <ul>
 
                <c:forEach items="${board.files}" var="file">
+               <c:if test="${file.filePath != null}">
                  <li><a href='/upload/board/${file.filePath}'>${file.filePath}</a>
                  [<a href='/app/board/file/delete?category=${category}&no=${file.no}'>삭제</a>]</li>
+                 </c:if>
 </c:forEach>
                  </ul>
                </div>

@@ -8,9 +8,9 @@ import teamproject.util.ObjectRepository;
 
 public class BoardListHandler implements MenuHandler {
 
-  ObjectRepository objectRepository;
+  ObjectRepository<Board> objectRepository;
 
-  public BoardListHandler(ObjectRepository objectRepository) {
+  public BoardListHandler(ObjectRepository<Board> objectRepository) {
     this.objectRepository = objectRepository;
   }
 

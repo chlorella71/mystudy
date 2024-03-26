@@ -10,9 +10,9 @@ import teamproject.util.Prompt;
 public class BoardAddHandler implements MenuHandler {
 
   Prompt prompt;
-  ObjectRepository objectRepository;
+  ObjectRepository<Board> objectRepository;
 
-  public BoardAddHandler(ObjectRepository objectRepository, Prompt prompt) {
+  public BoardAddHandler(ObjectRepository<Board> objectRepository, Prompt prompt) {
     this.objectRepository = objectRepository;
     this.prompt = prompt;
   }

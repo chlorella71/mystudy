@@ -100,7 +100,9 @@ public class BoardController {
       }
     }
 
-    board.setFiles(files);
+    if (files.size() > 0) {
+      board.setFiles(files);
+    }
 
     boardService.add(board);
 

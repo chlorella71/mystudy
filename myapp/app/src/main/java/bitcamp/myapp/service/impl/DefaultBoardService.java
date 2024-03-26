@@ -29,7 +29,7 @@ public class DefaultBoardService implements BoardService {
 
     boardDao.add(board);
 
-    if (board.getFiles() != null) {
+    if (board.getFiles() != null && board.getFiles().size() > 0) {
       for (AttachedFile attachedFile : board.getFiles()) {
         attachedFile.setBoardNo(board.getNo());
       }
@@ -53,7 +53,7 @@ public class DefaultBoardService implements BoardService {
   public int update(Board board) {
     int count = boardDao.update(board);
 
-    if (board.getFiles() != null) {
+    if (board.getFiles() != null && board.getFiles().size() > 0) {
       for (AttachedFile attachedFile : board.getFiles()) {
         attachedFile.setBoardNo(board.getNo());
       }

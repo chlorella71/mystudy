@@ -2,16 +2,17 @@ package teamproject.myapp.handler.board;
 
 import teamproject.menu.Menu;
 import teamproject.menu.MenuHandler;
+import teamproject.myapp.vo.Board;
 import teamproject.util.AnsiEscape;
 import teamproject.util.ObjectRepository;
 import teamproject.util.Prompt;
 
 public class BoardDeleteHandler implements MenuHandler {
 
-  ObjectRepository objectRepository;
+  ObjectRepository<Board> objectRepository;
   Prompt prompt;
 
-  public BoardDeleteHandler(ObjectRepository objectRepository, Prompt prompt) {
+  public BoardDeleteHandler(ObjectRepository<Board> objectRepository, Prompt prompt) {
     this.objectRepository = objectRepository;
     this.prompt = prompt;
   }

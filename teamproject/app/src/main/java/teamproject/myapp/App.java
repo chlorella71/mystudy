@@ -15,7 +15,6 @@ import teamproject.myapp.handler.member.MemberAddHandler;
 import teamproject.myapp.handler.member.MemberDeleteHandler;
 import teamproject.myapp.handler.member.MemberListHandler;
 import teamproject.myapp.handler.member.MemberModifyHandler;
-import teamproject.myapp.handler.member.MemberRepository;
 import teamproject.myapp.handler.member.MemberViewHandler;
 import teamproject.util.ObjectRepository;
 import teamproject.util.Prompt;
@@ -26,7 +25,7 @@ public class App {
         Prompt prompt = new Prompt(System.in);
 
         ObjectRepository boardRepository = new ObjectRepository();
-        MemberRepository memberRepository = new MemberRepository();
+        ObjectRepository memberRepository = new ObjectRepository();
 
         MenuGroup mainMenu = new MenuGroup("메인");
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AttachedFileDao {
 
-  void add(AttachedFile board);
+  void add(AttachedFile file);
 
   int addAll(List<AttachedFile> files);
 // 몇개를 등록했는지 알 수 있도록 int값 리턴

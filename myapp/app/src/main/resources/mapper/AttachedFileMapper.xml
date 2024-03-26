@@ -20,7 +20,7 @@
     insert into board_files(file_path,board_no)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.filePath,#{item.boardNo})
+      (#{item.filePath},#{item.boardNo})
     </foreach>
   </insert>
 
