@@ -13,7 +13,8 @@
   <a href='/app/member/list'>회원</a>
   <a href='/app/board/list?category=2'>가입인사</a>
 
-  <span data-th-if="${session.loginUser != null}" data-th-text="${session.loginUser.name}">홍길동</span>
+  <span data-th-if="${session.loginUser != null}"
+        data-th-text="${session.loginUser.name}">홍길동</span>
   <a data-th-if="{$session.loginUser != null}" href='/app/auth/logout'>로그아웃</a>
 
   <a data-th-if="${session.loginUser == null}" href='/app/auth/form'>로그인</a>

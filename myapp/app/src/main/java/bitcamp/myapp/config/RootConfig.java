@@ -26,7 +26,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "bitcamp.myapp.dao", "bitcamp.myapp.service"
 })
 @PropertySource({
-    "classpath:config/jdbc.properties"
+//    "classpath:config/jdbc.properties"
+    "classpath:config/ncp-jdbc.properties"
 })
 public class RootConfig {
 

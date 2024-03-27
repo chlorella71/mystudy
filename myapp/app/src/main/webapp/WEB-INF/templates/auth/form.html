@@ -10,10 +10,10 @@
     
         <h1>로그인</h1>
         
-            <form action='/app/auth/login' method='post'>
+            <form action="login" data-th-action="@{login}" method='post'>
             <div>
-               이메일: <input type='text' name='email'
-               data-th-value ='${email}' value="hone@test.com">
+               이메일: <input data-th-value='${email}' type='text' name='email'
+                           value="hone@test.com">
             </div>
             <div>
                암호: <input type='password' name='password'>
