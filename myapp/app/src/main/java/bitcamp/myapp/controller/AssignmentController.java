@@ -35,9 +35,30 @@ public class AssignmentController {
   }
 
   @GetMapping("list")
-  public void list(Model model) throws Exception {
+  public void list(
+      @RequestParam(defaultValue = "1") int pageNo,
+      @RequestParam(defaultValue = "3") int pageSize,
+      Model model) throws Exception {
 
-    model.addAttribute("list", assignmentService.list());
+    if (pageSize < 3 || pageSize >20) {
+      pageSize= 3;
+    }
+
+    if (pageNo < 1) {
+      pageNo = 1;
+    }
+
+    int numOfRecord = assignmentService.countAll();
+    int numOfPage = numOfRecord / pageSize + ((numOfRecord % pageSize) > 0 ? 1 : 0);
+
+    if (pageNo > numOfPage) {
+      pageNo = numOfPage;
+    }
+
+    model.addAttribute("list", assignmentService.list(pageNo, pageSize));
+    model.addAttribute("pageNo", pageNo);
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("numOfPage", numOfPage);
   }
 
   @GetMapping("view")

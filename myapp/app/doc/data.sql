@@ -33,7 +33,28 @@ insert into boards(board_no,title,content,writer, category)
 insert into boards(board_no,title,content,writer, category)
   values(4, '제목4', '내용4', 104, 2);
 insert into boards(board_no,title,content,writer, category)
-  values(5, '제목5', '내용5', 104, 2);
+  values(5, '제목5', '내용5', 104, 1);
+insert into boards(board_no,title,content,writer, category)
+  values(6, '제목6', '내용5', 101, 1),
+  (7, '제목7', '내용5', 102, 1),
+  (8, '제목8', '내용5', 103, 1),
+  (9, '제목9', '내용5', 104, 1),
+  (10, '제목10', '내용5', 101, 1),
+  (11, '제목11', '내용5', 102, 1),
+  (12, '제목12', '내용5', 103, 1),
+  (13, '제목13', '내용5', 104, 1),
+  (14, '제목14', '내용5', 101, 1),
+  (15, '제목15', '내용5', 102, 1),
+  (16, '제목16', '내용5', 103, 1),
+  (17, '제목17', '내용5', 104, 1),
+  (18, '제목18', '내용5', 101, 1),
+  (19, '제목19', '내용5', 102, 1),
+  (20, '제목20', '내용5', 103, 2),
+  (21, '제목21', '내용5', 104, 2),
+  (22, '제목22', '내용5', 101, 2),
+  (23, '제목23', '내용5', 102, 2),
+  (24, '제목24', '내용5', 103, 2),
+  (25, '제목25', '내용5', 104, 2);
 
 --  board_files 테이블 데이터
 insert into board_files(file_no,file_path,board_no) values

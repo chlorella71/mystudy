@@ -10,7 +10,7 @@ create table boards(
   board_no int not null,
 --  board_no int primary key auto_increment,
   title varchar(255) not null,
-  content text not null,
+  content mediumtext not null,
 --  writer varchar(30) not null,
   writer int not null,
   category int not null,
@@ -83,7 +83,7 @@ create table assignments(
 assignment_no int not null,
 --  assignment_no int primary key auto_increment,
   title varchar(255) not null,
-  content text not null,
+  content mediumtext not null,
   deadline date not null
 );
 

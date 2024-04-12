@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 //@NoArgsConstructor
 @Data
@@ -19,6 +18,6 @@ public class Board implements Serializable {
 //  private String writer;
   private Member writer;
   private Date createdDate;
-  private List<AttachedFile> files;
+  private List<AttachedFile> fileList;
   private int fileCount;
 }

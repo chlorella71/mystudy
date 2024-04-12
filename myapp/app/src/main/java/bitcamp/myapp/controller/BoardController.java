@@ -1,26 +1,19 @@
 package bitcamp.myapp.controller;
 
-import bitcamp.myapp.dao.AttachedFileDao;
-import bitcamp.myapp.dao.BoardDao;
 import bitcamp.myapp.service.BoardService;
+import bitcamp.myapp.service.StorageService;
 import bitcamp.myapp.vo.AttachedFile;
 import bitcamp.myapp.vo.Board;
 import bitcamp.myapp.vo.Member;
 //import bitcamp.util.TransactionManager;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,34 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/board")
 public class BoardController {
 
   private static final Log log = LogFactory.getLog(BoardController.class);
-
-//  private TransactionManager txManager;
-  //  DBConnectionPool connectionPool;
-
   private final BoardService boardService;
+  private final StorageService storageService;
+  private String uploadDir = "board/";
 
-  private String uploadDir;
-
-  @Autowired
-  private ApplicationContext ctx;
-
-  public BoardController(
-//      TransactionManager txManager,
-      BoardService boardService,
-      ApplicationContext ctx,
-      ServletContext sc) {
-    log.debug("BoardController() 호출됨");
-
-//    this.txManager = txManager;
-    this.boardService = boardService;
-    this.ctx = ctx;
-    this.uploadDir = sc.getRealPath("/upload/board");
-  }
+  @Value("${ncp.ss.bucketname}")
+  private String bucketName;
 
   @GetMapping("form")
   public void form(
@@ -65,13 +42,7 @@ public class BoardController {
     model.addAttribute("boardName", category == 1 ? "게시글" : "가입인사");
     model.addAttribute("category", category);
 
-//    String[] beanNames = ctx.getBeanDefinitionNames();
-//    for (String beanName : beanNames) {
-//      log.debug(ctx.getBean(beanName).getClass().getSimpleName());
-//    }
   }
-
-//    @Transactional(rollbackFor = Exception.class)
 
 @PostMapping("add")
   public String add(
@@ -94,14 +65,13 @@ public class BoardController {
         if (file.getSize() == 0) {
           continue;
         }
-        String filename = UUID.randomUUID().toString();
-        file.transferTo(new File(this.uploadDir + "/" + filename));
+        String filename = storageService.upload(this.bucketName, this.uploadDir, file);
         files.add(AttachedFile.builder().filePath(filename).build());
       }
     }
 
     if (files.size() > 0) {
-      board.setFiles(files);
+      board.setFileList(files);
     }
 
     boardService.add(board);
@@ -109,17 +79,40 @@ public class BoardController {
 //      txManager.startTransaction();
 
 //      txManager.commit();
-  return "redirect:list";
+  return "redirect:list?category=" + board.getCategory();
   }
 
 @GetMapping("list")
   public void list(
       int category,
+      @RequestParam(defaultValue = "1") int pageNo,
+      @RequestParam(defaultValue = "3") int pageSize,
       Model model) throws Exception {
+
+    if (pageSize < 3 || pageSize > 20) {
+      pageSize = 3;
+    }
+
+    if (pageNo < 1) {
+      pageNo = 1;
+    }
+
+    int numOfRecord = boardService.countAll(category);
+    int numOfPage = numOfRecord / pageSize + ((numOfRecord % pageSize) > 0 ? 1 : 0);
+
+    if (pageNo > numOfPage) {
+      pageNo = numOfPage;
+    }
+
     model.addAttribute("boardName", category == 1 ? "게시글" : "가입인사");
   model.addAttribute("category", category);
-  model.addAttribute("list", boardService.list(category));
+  List<Board> list =  boardService.list(category, pageNo, pageSize);
+  model.addAttribute("list", list);
+  model.addAttribute("pageNo", pageNo);
+  model.addAttribute("pageSize", pageSize);
+  model.addAttribute("numOfPage", numOfPage);
 
+//  log.debug(list.size());
   }
 @GetMapping("view")
   public void view(
@@ -165,25 +158,20 @@ public class BoardController {
           if (file.getSize() == 0) {
             continue;
           }
-          String filename = UUID.randomUUID().toString();
-          file.transferTo(new File(this.uploadDir + "/" + filename));
+          String filename = storageService.upload(this.bucketName, this.uploadDir, file);
           AttachedFile attachedFile = AttachedFile.builder()
               .filePath(filename)
               .build();
           files.add(attachedFile);
         }
       }
-
-//      txManager.startTransaction();
-      board.setFiles(files);
+      if (files.size() > 0) {
+        board.setFileList(files);
+      }
 
       boardService.update(board);
 
-
-//      txManager.commit();
-
-      return "redirect:list";
-
+    return "redirect:list/category=" + board.getCategory();
   }
 
   @GetMapping("delete")
@@ -208,7 +196,7 @@ public class BoardController {
       boardService.delete(no);
 
       for (AttachedFile file : files) {
-        new File(this.uploadDir + "/" + file.getFilePath()).delete();
+        storageService.delete(this.bucketName, this.uploadDir, file.getFilePath());
       }
 
       return "redirect:list?category=" + category;
@@ -245,7 +233,7 @@ public class BoardController {
     }
 
     boardService.deleteAttachedFile(no);
-    new File(this.uploadDir + "/" + file.getFilePath()).delete();
+    storageService.delete(this.bucketName, this.uploadDir, file.getFilePath());
 
     return "redirect:../view?category=" + category + "&no=" + file.getBoardNo();
 

@@ -2,6 +2,7 @@ package bitcamp.myapp.controller;
 
 import bitcamp.myapp.dao.MemberDao;
 import bitcamp.myapp.service.MemberService;
+import bitcamp.myapp.service.StorageService;
 import bitcamp.myapp.service.impl.DefaultMemberService;
 import bitcamp.myapp.vo.Member;
 import java.io.File;
@@ -9,30 +10,38 @@ import java.util.Map;
 import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/member")
-public class MemberController {
+public class MemberController implements InitializingBean {
 
   private static final Log log = LogFactory.getLog(MemberController.class);
 
   private final MemberService memberService;
-
+  private final StorageService storageService;
   private String uploadDir;
+  @Value("${ncp.ss.bucketname}")
+  private String bucketName;
 
-  public MemberController(MemberService memberService, ServletContext sc) {
-    log.debug("MemberController() 호출됨");
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    this.uploadDir = "member/";
 
-    this.memberService = memberService;
-    this.uploadDir = sc.getRealPath("/upload");
+    log.debug(String.format("uploadDir: %s", this.uploadDir));
+    log.debug(String.format("bucketname: %s", this.bucketName));
   }
 
   @GetMapping("form")
@@ -46,9 +55,8 @@ public class MemberController {
 
       if (file.getSize() > 0) {
         // 파일을 선택해서 업로드 했다면,
-        String filename = UUID.randomUUID().toString();
+        String filename = storageService.upload(this.bucketName, this.uploadDir, file);
         member.setPhoto(filename);
-        file.transferTo(new File(this.uploadDir + "/" + filename));
       }
 
     memberService.add(member);
@@ -57,9 +65,30 @@ public class MemberController {
 
     @GetMapping("list")
   public void list(
+      @RequestParam(defaultValue = "1") int pageNo,
+      @RequestParam(defaultValue = "3") int pageSize,
       Model model
   ) throws Exception {
-    model.addAttribute("list", memberService.list());
+
+    if (pageSize < 3 || pageSize > 20) {
+      pageSize =3;
+    }
+
+    if (pageNo < 1) {
+      pageNo = 1;
+    }
+
+    int numOfRecord = memberService.countAll();
+    int numOfPage = numOfRecord / pageSize + ((numOfRecord % pageSize) > 0 ? 1 : 0);
+
+    if (pageNo > numOfPage) {
+      pageNo = numOfPage;
+    }
+
+    model.addAttribute("list", memberService.list(pageNo, pageSize));
+      model.addAttribute("pageNo", pageNo);
+      model.addAttribute("pageSize", pageSize);
+      model.addAttribute("numOfPage", numOfPage);
   }
 
   @GetMapping("view")
@@ -85,9 +114,9 @@ public class MemberController {
 
     if (file.getSize() > 0) {
       // 파일을 선택해서 업로드 했다면,
-      String filename = UUID.randomUUID().toString();
+      String filename = storageService.upload(this.bucketName, this.uploadDir, file);
       member.setPhoto(filename);
-      file.transferTo(new File(this.uploadDir + "/" + filename));
+      storageService.delete(this.bucketName, this.uploadDir, old.getPhoto());
       new File(this.uploadDir + "/" + old.getPhoto()).delete();
     } else {
       member.setPhoto(old.getPhoto());
@@ -104,13 +133,13 @@ public class MemberController {
 
     Member member = memberService.get(no);
     if (member == null) {
-      throw new Exception("<p>회원 번호가 유효하지 않습니다.</p>");
+      throw new Exception("회원 번호가 유효하지 않습니다.");
     }
 
     memberService.delete(no);
     String filename = member.getPhoto();
     if (filename != null) {
-      new File(this.uploadDir + "/" + filename).delete();
+      storageService.delete(this.bucketName, this.uploadDir, member.getPhoto());
     }
     return "redirect:list";
   }
