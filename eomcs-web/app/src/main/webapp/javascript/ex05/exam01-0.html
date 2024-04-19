@@ -21,7 +21,45 @@
 
 // document의 타입은?
 // => 즉 document 객체를 초기화시킨 생성자는?
+function Score(n, k, m, e) {
+  this.name = n;
+  this.kor = k;
+  this.math = m;
+  this.eng = e;
+  this.f = function() {
+    console.log("haha");
+  };
+}
+
+Score.prototype.okok = "하하하";
+
+let obj = new Score("홍길동", 100, 90, 80);
+console.log(obj);
+console.log(obj.constructor.name);
+
 console.log(document.constructor.name);
+
+<!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+<!--let obj = new Score("홍길동", 100, 90, 80);-->
+<!--console.log(obj);-->
+<!--console.log(obj.name);-->
+<!--console.log(obj.kor);-->
+<!--console.log(obj.math);-->
+<!--console.log(obj.eng);-->
+<!--obj.f();-->
+
+<!--let obj2 = new Score("임꺽정", 100, 90, 80);-->
+<!--console.log(obj2);-->
+<!--console.log(obj2.name);-->
+<!--obj2.f();-->
+
+<!--console.log(obj.okok);-->
+<!--console.log(obj2.okok);-->
+
+<!--console.log(obj.constructor.name);-->
+
+<!--console.log(document.constructor.name);-->
 
 // document 객체를 통해 사용할 수 있는 함수나 변수는?
 // => HTMLDocument 생성자가 추가한 함수나 변수이다.
@@ -30,6 +68,25 @@ console.log(document.constructor.name);
 // => 상속 관계
 //    Document() --> Node() ---> EventTarget() ---> Object()
 
+<!--let a = 100;-->
+var a = 100;
+console.log(window.a);
+console.log(a);
+
+console.log(window.document);
+window.console.log(window.document);
+window.alert("Hello");
+
+<!--java.lang.String s = "Hello";-->
+
+<!--import java.lang.String-->
+<!--String s = "Hello";-->
+
+<!--String s = "Hello";-->
+
+
+
+console.log("=============================================");
 console.log(document);
 
 console.log(Document.prototype);
