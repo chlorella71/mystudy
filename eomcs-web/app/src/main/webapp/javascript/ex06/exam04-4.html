@@ -55,6 +55,9 @@ a {
   </tr>
 </tbody>
 </table>
+
+<!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
 <script>
 "use strict"
 
@@ -68,6 +71,7 @@ for (var e of el) {
   e.addEventListener("click", function(e) {
     console.log(e.target);
     console.log(e.target.getAttribute("data-no") + " 번 게시물의 제목을 눌렀음!");
+<!--    window.location.href = "/board/view?no=" + e.target.getAttribute("data-no");-->
   });
 }
 </script>

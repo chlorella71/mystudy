@@ -66,20 +66,32 @@ var el = document.querySelectorAll("tbody tr");
 
 for (var e of el) {
   e.addEventListener("click", function(e) {
-    // e.target 은 이벤트가 발생한 객체를 가리킨다.
-    // console.log(e.target);
-    // console.log(e.target.getAttribute("data-no") + " 번 게시물의 제목을 눌렀음!");
-    
-    // 리스너가 등록된 태그를 가리키고 싶다면,
-    // e.currentTarget 프로퍼티의 값을 사용하라!
-    console.log(e.currentTarget);
-    console.log(e.currentTarget.getAttribute("data-no") + " 번 게시물의 제목을 눌렀음!");
-    console.log("-------------------------------");
+    // target : target 단계의 태그를 가리킨다.
+    // => td 태그를 클릭하면 target이 가리키는 태그 객체는 td 태그일 것이고,
+    // a 태그를 클릭하면 target이 가리키는 태그 객체는 a 태그이다.
+    console.log(e.target);
 
-    // 자바스크립트에서 다른 페이지로 이동시킨다.
-    window.location.href = "https://www.daum.net/board?no=" + e.currentTarget.getAttribute("data-no");
-  });   
+    // 어느 태그를 클릭하느냐에 따라 target이 가리키는 태그가 다르기 때문에
+    // URL을 a 태그와 td태그에 모두 설정했다.
+    //window.location.href = e.target.getAttribute("href");
+  });
 }
+<!--for (var e of el) {-->
+<!--  e.addEventListener("click", function(e) {-->
+<!--    // e.target 은 이벤트가 발생한 객체를 가리킨다.-->
+<!--    // console.log(e.target);-->
+<!--    // console.log(e.target.getAttribute("data-no") + " 번 게시물의 제목을 눌렀음!");-->
+<!--    -->
+<!--    // 리스너가 등록된 태그를 가리키고 싶다면,-->
+<!--    // e.currentTarget 프로퍼티의 값을 사용하라!-->
+<!--    console.log(e.currentTarget);-->
+<!--    console.log(e.currentTarget.getAttribute("data-no") + " 번 게시물의 제목을 눌렀음!");-->
+<!--    console.log("-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;");-->
+
+<!--    // 자바스크립트에서 다른 페이지로 이동시킨다.-->
+<!--    window.location.href = "https://www.daum.net/board?no=" + e.currentTarget.getAttribute("data-no");-->
+<!--  });   -->
+<!--}-->
 </script>
 </body>
 </html>
