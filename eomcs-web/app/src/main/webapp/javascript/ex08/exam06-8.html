@@ -15,7 +15,8 @@ const promise = new Promise((resolve, reject) => {
 .then(() => console.log("fulfilled! - 1"))
 .then(() => console.log("fulfilled! - 2"))
 .catch(() => console.log("catched! - 1"))
-.catch(() => console.log("catched! - 2"))
+.catch(() => console.log("catched! - 2")
+  () => console.log("fulfilled! - 2.5"))
 .then(() => console.log("fulfilled! - 3"))
 .then(() => console.log("fulfilled! - 4"));
 
